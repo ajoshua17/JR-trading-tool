@@ -8,47 +8,49 @@
 
 <style>
 
-/* =======================================================
-      BASE THEME (Dark Default)
-======================================================= */
+/* ================================================
+   BASE THEME (Dark Default)
+================================================ */
 :root {
     --bg: #02070a;
     --text: #eaffff;
-    --card: rgba(255,255,255,0.08);
-    --border: rgba(0,255,255,0.3);
-    --glow: rgba(0,255,255,0.3);
+    --card: rgba(255,255,255,0.10);
+    --border: rgba(0,255,255,0.25);
+    --glow: rgba(0,255,255,0.4);
 }
 
-/* Light Mode Override */
+/* Light Mode */
 body[data-theme="light"] {
     --bg: #f5fcff;
     --text: #002e34;
-    --card: rgba(255,255,255,0.55);
+    --card: rgba(255,255,255,0.65);
     --border: rgba(0,0,0,0.2);
     --glow: rgba(0,0,0,0.1);
 }
 
-/* Auto Light Mode (System) */
+/* Auto System Light */
 @media (prefers-color-scheme: light) {
   body:not([data-theme]) {
     --bg: #f5fcff;
-    --text: #002e34;
-    --card: rgba(255,255,255,0.55);
+    --text: #003033;
+    --card: rgba(255,255,255,0.65);
     --border: rgba(0,0,0,0.2);
-    --glow: rgba(0,0,0,0.1);
+    --glow: rgba(0,0,0,0.2);
   }
 }
 
-/* =======================================================
-      BACKGROUND + NEON GRID
-======================================================= */
+/* ================================================
+   BODY + BACKGROUND EFFECTS (Fix Touch Issues)
+================================================ */
 body {
     margin: 0;
     padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
-    background: linear-gradient(135deg, #020608, #00151c, #000000);
+    background: var(--bg);
     color: var(--text);
     font-family: Arial, sans-serif;
     overflow-x: hidden;
+    position: relative;
+    z-index: 1;
 }
 
 /* Neon Grid */
@@ -57,52 +59,41 @@ body::before {
     position: fixed;
     inset: 0;
     background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,255,255,0.05) 0px,
-            rgba(0,255,255,0.05) 1px,
-            transparent 1px,
-            transparent 65px
-        ),
-        repeating-linear-gradient(
-            0deg,
-            rgba(0,255,255,0.05) 0px,
-            rgba(0,255,255,0.05) 1px,
-            transparent 1px,
-            transparent 65px
-        );
-    z-index: -3;
+        repeating-linear-gradient(90deg, rgba(0,255,255,0.05) 0, rgba(0,255,255,0.05) 1px, transparent 1px, transparent 65px),
+        repeating-linear-gradient(0deg, rgba(0,255,255,0.05) 0, rgba(0,255,255,0.05) 1px, transparent 1px, transparent 65px);
+    z-index: -10 !important;
     pointer-events: none;
 }
 
-/* Floating Neon Particles */
+/* Floating Particles */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
     background-image:
-      radial-gradient(circle, rgba(0,255,255,0.4) 3px, transparent 4px),
-      radial-gradient(circle, rgba(0,255,255,0.4) 4px, transparent 5px);
+        radial-gradient(circle, rgba(0,255,255,0.4) 3px, transparent 4px),
+        radial-gradient(circle, rgba(0,255,255,0.4) 4px, transparent 5px);
     background-size: 200px 200px, 260px 260px;
     animation: floatParticles 14s infinite linear;
+    z-index: -9 !important;
     pointer-events: none;
-    z-index: -2;
 }
 
 @keyframes floatParticles {
-    0% { transform: translate(0,0); }
-    50% { transform: translate(20px,-40px); }
-    100% { transform: translate(0,0); }
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -40px); }
+    100% { transform: translate(0, 0); }
 }
 
-/* =======================================================
-      CARD WRAPPER (Glow Rings Behind Card)
-======================================================= */
+/* ================================================
+   CARD WRAPPER (Glow Rings Behind Card)
+================================================ */
 .card-wrapper {
     position: relative;
     max-width: 520px;
     margin: auto;
     padding-top: 40px;
+    z-index: 20;  /* FIXED */
 }
 
 .card-wrapper::before {
@@ -110,15 +101,13 @@ body::after {
     position: absolute;
     top: 50%; left: 50%;
     width: 360px; height: 360px;
-    border-radius: 50%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle,
-      rgba(0,255,255,0.35),
-      transparent 70%
-    );
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,255,0.35), transparent 70%);
     filter: blur(35px);
     animation: pulseGlow 5s infinite ease-in-out;
-    z-index: -1;
+    z-index: -5 !important;
+    pointer-events: none;
 }
 
 @keyframes pulseGlow {
@@ -127,101 +116,97 @@ body::after {
     100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.55; }
 }
 
-/* =======================================================
-      CARD WITH ANIMATED NEON BORDER
-======================================================= */
+/* ================================================
+   MAIN CARD (Neon Border + Glassmorphism)
+================================================ */
 .card {
     padding: 26px;
     background: var(--card);
     border-radius: 22px;
+    backdrop-filter: blur(25px);
     position: relative;
-    backdrop-filter: blur(22px);
+    z-index: 30;  /* FIXED */
 }
 
-/* Neon Animated Border */
+/* Animated Neon Border */
 .card::before {
     content: "";
     position: absolute;
     inset: 0;
     padding: 2px;
     border-radius: 22px;
-    background: linear-gradient(
-        135deg,
-        #00eaff,
-        #00fff2,
-        #00d5ff,
-        #00b7ff
-    );
+    background: linear-gradient(135deg, #00eaff, #00fff2, #00d5ff, #00b7ff);
     background-size: 300% 300%;
-    animation: borderShine 5s infinite linear;
+    animation: shineBorder 5s infinite linear;
 
     -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
 }
 
-@keyframes borderShine {
+@keyframes shineBorder {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* =======================================================
-      INPUTS + BUTTONS GLOW
-======================================================= */
+/* ================================================
+   INPUTS
+================================================ */
 input, select {
     width: 100%;
     padding: 14px;
     margin: 12px 0;
     border-radius: 14px;
-    background: rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.08);
     border: 1px solid var(--border);
     color: var(--text);
     font-size: 16px;
+    z-index: 30;
+    position: relative;
 }
 
 input:focus, select:focus {
     box-shadow: 0 0 12px rgba(0,255,255,0.9);
     border-color: #00f5ff;
-    transition: 0.3s;
 }
 
-/* Buttons */
+/* ================================================
+   BUTTONS
+================================================ */
 button {
     width: 100%;
     padding: 14px;
+    margin-top: 14px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #00f5ff, #00bfff);
     border: none;
-    color: #00282d;
+    background: linear-gradient(135deg, #00f5ff, #00bfff);
+    color: #003033;
     font-weight: bold;
+    z-index: 30;
+    position: relative;
     cursor: pointer;
-
-    box-shadow:
-        0 0 12px rgba(0,255,255,0.6),
-        0 0 26px rgba(0,255,255,0.35);
     transition: 0.25s;
+    box-shadow: 0 0 15px rgba(0,255,255,0.6);
 }
 
 button:hover {
     transform: translateY(-2px);
-    box-shadow:
-        0 0 24px rgba(0,255,255,1),
-        0 0 40px rgba(0,255,255,0.7);
+    box-shadow: 0 0 25px rgba(0,255,255,1);
 }
 
-/* =======================================================
-      RESULT BOX (Glow Text)
-======================================================= */
+/* ================================================
+   RESULT BOX
+================================================ */
 .result {
-    margin-top: 16px;
+    background: rgba(255,255,255,0.07);
     padding: 18px;
     border-radius: 14px;
-    background: rgba(255,255,255,0.06);
+    margin-top: 14px;
     border: 1px solid var(--border);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
 }
 
 .big-output {
@@ -229,7 +214,7 @@ button:hover {
     font-weight: bold;
     margin-top: 12px;
     color: #afffff;
-    text-shadow: 0 0 12px rgba(0,255,255,0.9);
+    text-shadow: 0 0 12px rgba(0,255,255,1);
 }
 
 /* Copy Button */
@@ -239,40 +224,32 @@ button:hover {
     background: #00f5ff;
     border-radius: 12px;
     font-weight: bold;
+    color: #00282d;
     cursor: pointer;
-    color: #001e22;
+    width: 100%;
 }
 
-/* =======================================================
-      RISK SLIDER UI
-======================================================= */
+/* ================================================
+   RISK SLIDER UI
+================================================ */
 .risk-bar {
     width: 100%;
     height: 10px;
     background: rgba(255,255,255,0.15);
     border-radius: 10px;
-    margin-top: 10px;
     overflow: hidden;
 }
 
 .risk-fill {
     height: 100%;
     width: 0%;
-    background: #00ff9d;
-    transition: 0.3s ease;
+    transition: 0.3s;
 }
 
-.risk-label {
-    margin-top: 8px;
-    opacity: 0.85;
-}
-
-/* Range Slider */
 input[type="range"] {
     width: 100%;
     margin-top: 10px;
     background: transparent;
-    -webkit-appearance: none;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -288,7 +265,7 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-webkit-slider-runnable-track {
     height: 7px;
     background: rgba(255,255,255,0.3);
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 </style>
@@ -300,12 +277,9 @@ input[type="range"]::-webkit-slider-runnable-track {
 <div class="card">
 
 <h2>JR Trading Calculator Pro</h2>
+<button onclick="toggleTheme()">Toggle Theme</button>
 
-<button onclick="toggleTheme()">Toggle Theme (Optional)</button>
-
-<!-- ============================ -->
 <!-- PAIR SELECTION -->
-<!-- ============================ -->
 <label>Select Pair</label>
 <select id="pair">
 <option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
@@ -325,20 +299,18 @@ input[type="range"]::-webkit-slider-runnable-track {
 <label>Lot Size</label>
 <input type="number" id="lot" value="1">
 
-<label>Pip Value ($)</label>
+<label>Pip Value</label>
 <input type="number" id="pipValue" readonly>
 
 <button onclick="calculateProfit()">Calculate Profit</button>
 <div id="profitResult" class="result"></div>
 
-<hr class="output-line">
+<hr>
 
-<!-- ============================ -->
 <!-- POSITION SIZE -->
-<!-- ============================ -->
 <h3>Position Size Calculator</h3>
 
-<label>Account Balance ($)</label>
+<label>Account Balance</label>
 <input type="number" id="balance">
 
 <label>Risk %</label>
@@ -346,9 +318,9 @@ input[type="range"]::-webkit-slider-runnable-track {
 <div id="riskValue">1%</div>
 
 <div class="risk-bar">
-    <div id="riskFill" class="risk-fill"></div>
+  <div id="riskFill" class="risk-fill"></div>
 </div>
-<div id="riskLabel" class="risk-label">Safe Risk</div>
+<div id="riskLabel">Safe Risk</div>
 
 <label>Stop Loss (pips)</label>
 <input type="number" id="sl">
@@ -356,11 +328,9 @@ input[type="range"]::-webkit-slider-runnable-track {
 <button onclick="positionSize()">Calculate Position Size</button>
 <div id="posResult" class="result"></div>
 
-<hr class="output-line">
+<hr>
 
-<!-- ============================ -->
-<!-- TICK → PIP -->
-<!-- ============================ -->
+<!-- TICKS -->
 <h3>Tick → Pip Converter</h3>
 <label>Ticks</label>
 <input type="number" id="ticks">
@@ -373,9 +343,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <script>
 
-/* =====================================================
-      AUTO PIP VALUES
-===================================================== */
+/* PIP TABLE */
 const pipValues = {
  EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
  USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
@@ -383,91 +351,79 @@ const pipValues = {
  US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
 };
 
-document.getElementById("pipValue").value = pipValues["EURUSD"];
-document.getElementById("pair").addEventListener("change", () => {
-    pipValue.value = pipValues[pair.value];
-});
+pipValue.value = pipValues[pair.value];
+pair.addEventListener("change", () => pipValue.value = pipValues[pair.value]);
 
-/* =====================================================
-      MANUAL THEME TOGGLE
-===================================================== */
+/* THEME TOGGLE */
 let manualTheme = false;
 function toggleTheme() {
-    manualTheme = true;
-    let t = document.body.getAttribute("data-theme");
-    document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
+  manualTheme = true;
+  let t = document.body.getAttribute("data-theme");
+  document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
 }
 
-/* =====================================================
-      RISK METER LIVE UPDATE
-===================================================== */
+/* RISK SLIDER */
 riskSlider.addEventListener("input", () => {
-
     let v = parseFloat(riskSlider.value);
     riskValue.innerText = v + "%";
     riskFill.style.width = (v * 20) + "%";
 
     if (v <= 1) {
         riskFill.style.background = "#00ff9d";
-        riskLabel.innerHTML = "Safe Risk";
+        riskLabel.innerText = "Safe Risk";
     } else if (v <= 2) {
         riskFill.style.background = "#faff00";
-        riskLabel.innerHTML = "Moderate Risk";
+        riskLabel.innerText = "Moderate Risk";
     } else if (v <= 3) {
         riskFill.style.background = "#ffa600";
-        riskLabel.innerHTML = "High Risk";
+        riskLabel.innerText = "High Risk";
     } else {
         riskFill.style.background = "#ff0033";
-        riskLabel.innerHTML = "VERY High Risk";
+        riskLabel.innerText = "VERY High Risk";
     }
 });
 
-/* =====================================================
-      PROFIT CALCULATOR
-===================================================== */
+/* PROFIT CALCULATOR */
 function calculateProfit() {
     let p = parseFloat(pips.value);
     let l = parseFloat(lot.value);
-    if (!p || !l) return profitResult.innerHTML = "Enter valid values";
+    if (!p || !l) return profitResult.innerHTML = "Enter valid inputs";
+
     let val = p * l * pipValues[pair.value];
     profitResult.innerHTML = `<div class="big-output">Profit: $${val.toFixed(2)}</div>`;
 }
 
-/* =====================================================
-      POSITION SIZE CALCULATOR
-===================================================== */
+/* POSITION SIZE */
 function positionSize() {
     let bal = parseFloat(balance.value);
     let risk = parseFloat(riskSlider.value);
-    let sl = parseFloat(sl.value);
-    if (!bal || !risk || !sl) return posResult.innerHTML = "Enter valid values";
+    let slv = parseFloat(sl.value);
+
+    if (!bal || !risk || !slv)
+        return posResult.innerHTML = "Enter valid inputs";
 
     let pipV = pipValues[pair.value];
     let riskAmt = bal * (risk / 100);
-    let lots = riskAmt / (sl * pipV);
+    let lots = riskAmt / (slv * pipV);
 
     posResult.innerHTML = `
-        <div><span class="output-label">Pair:</span> ${pair.value}</div>
-        <div><span class="output-label">Risk Amount:</span> $${riskAmt.toFixed(2)}</div>
-        <div><span class="output-label">Stop Loss:</span> ${sl} pips</div>
-        <div><span class="output-label">Pip Value Used:</span> $${pipV}</div>
-        <div class="output-line"></div>
+        <div><b>Pair:</b> ${pair.value}</div>
+        <div><b>Risk Amount:</b> $${riskAmt.toFixed(2)}</div>
+        <div><b>Stop Loss:</b> ${slv} pips</div>
+        <div><b>Pip Value Used:</b> $${pipV}</div>
+        <hr>
         <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
         <button class="copy-btn" onclick="copyPositionResult()">Copy</button>
     `;
 }
 
-/* =====================================================
-      COPY RESULT
-===================================================== */
+/* COPY RESULT */
 function copyPositionResult() {
     navigator.clipboard.writeText(posResult.innerText);
     alert("Copied!");
 }
 
-/* =====================================================
-      TICK → PIP
-===================================================== */
+/* TICKS */
 function convertTicks() {
     let t = parseFloat(ticks.value);
     if (!t) return tickResult.innerHTML = "Enter valid input";
