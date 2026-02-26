@@ -355,9 +355,7 @@ pipValue.value = pipValues[pair.value];
 pair.addEventListener("change", () => pipValue.value = pipValues[pair.value]);
 
 /* THEME TOGGLE */
-let manualTheme = false;
 function toggleTheme() {
-  manualTheme = true;
   let t = document.body.getAttribute("data-theme");
   document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
 }
@@ -393,7 +391,9 @@ function calculateProfit() {
     profitResult.innerHTML = `<div class="big-output">Profit: $${val.toFixed(2)}</div>`;
 }
 
-/* POSITION SIZE */
+/* ============================================
+   FIXED POSITION SIZE CALCULATOR
+============================================ */
 function positionSize() {
     let bal = parseFloat(balance.value);
     let risk = parseFloat(riskSlider.value);
@@ -404,6 +404,8 @@ function positionSize() {
 
     let pipV = pipValues[pair.value];
     let riskAmt = bal * (risk / 100);
+
+    /* FIXED LINE — using slv instead of sl */
     let lots = riskAmt / (slv * pipV);
 
     posResult.innerHTML = `
