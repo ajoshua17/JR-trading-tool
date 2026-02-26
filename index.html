@@ -8,148 +8,244 @@
 
 <style>
 
-/* =============================================
-   THEME VARIABLES (Default Dark Mode)
-============================================= */
+/* =======================================================
+      BASE THEME (Dark Default)
+======================================================= */
 :root {
-    --bg: #0f0f0f;
-    --text: #e9ffff;
-    --card: rgba(255,255,255,0.10);
-    --border: rgba(255,255,255,0.18);
-    --glow: rgba(0,255,255,0.20);
+    --bg: #02070a;
+    --text: #eaffff;
+    --card: rgba(255,255,255,0.08);
+    --border: rgba(0,255,255,0.3);
+    --glow: rgba(0,255,255,0.3);
 }
 
-/* LIGHT MODE MANUAL */
+/* Light Mode Override */
 body[data-theme="light"] {
-    --bg: #f5faff;
-    --text: #003033;
-    --card: rgba(255,255,255,0.65);
-    --border: rgba(0,0,0,0.15);
-    --glow: rgba(0,0,0,0.10);
+    --bg: #f5fcff;
+    --text: #002e34;
+    --card: rgba(255,255,255,0.55);
+    --border: rgba(0,0,0,0.2);
+    --glow: rgba(0,0,0,0.1);
 }
 
-/* AUTO SYSTEM LIGHT MODE */
+/* Auto Light Mode (System) */
 @media (prefers-color-scheme: light) {
-    body:not([data-theme]) {
-        --bg: #f5faff;
-        --text: #003033;
-        --card: rgba(255,255,255,0.65);
-        --border: rgba(0,0,0,0.15);
-        --glow: rgba(0,0,0,0.10);
-    }
+  body:not([data-theme]) {
+    --bg: #f5fcff;
+    --text: #002e34;
+    --card: rgba(255,255,255,0.55);
+    --border: rgba(0,0,0,0.2);
+    --glow: rgba(0,0,0,0.1);
+  }
 }
 
-/* =============================================
-   GLOBAL BODY
-============================================= */
+/* =======================================================
+      BACKGROUND + NEON GRID
+======================================================= */
 body {
     margin: 0;
     padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
-    background: var(--bg);
+    background: linear-gradient(135deg, #020608, #00151c, #000000);
     color: var(--text);
     font-family: Arial, sans-serif;
-    transition: 0.35s;
+    overflow-x: hidden;
 }
 
-/* =============================================
-   MAIN CARD (RESPONSIVE)
-============================================= */
-.card {
-    width: 100%;
+/* Neon Grid */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,255,255,0.05) 0px,
+            rgba(0,255,255,0.05) 1px,
+            transparent 1px,
+            transparent 65px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(0,255,255,0.05) 0px,
+            rgba(0,255,255,0.05) 1px,
+            transparent 1px,
+            transparent 65px
+        );
+    z-index: -3;
+    pointer-events: none;
+}
+
+/* Floating Neon Particles */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(0,255,255,0.4) 3px, transparent 4px),
+      radial-gradient(circle, rgba(0,255,255,0.4) 4px, transparent 5px);
+    background-size: 200px 200px, 260px 260px;
+    animation: floatParticles 14s infinite linear;
+    pointer-events: none;
+    z-index: -2;
+}
+
+@keyframes floatParticles {
+    0% { transform: translate(0,0); }
+    50% { transform: translate(20px,-40px); }
+    100% { transform: translate(0,0); }
+}
+
+/* =======================================================
+      CARD WRAPPER (Glow Rings Behind Card)
+======================================================= */
+.card-wrapper {
+    position: relative;
     max-width: 520px;
     margin: auto;
-    padding: 25px;
+    padding-top: 40px;
+}
+
+.card-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle,
+      rgba(0,255,255,0.35),
+      transparent 70%
+    );
+    filter: blur(35px);
+    animation: pulseGlow 5s infinite ease-in-out;
+    z-index: -1;
+}
+
+@keyframes pulseGlow {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.55; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.55; }
+}
+
+/* =======================================================
+      CARD WITH ANIMATED NEON BORDER
+======================================================= */
+.card {
+    padding: 26px;
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 8px 30px var(--glow);
+    border-radius: 22px;
+    position: relative;
+    backdrop-filter: blur(22px);
 }
 
-/* HEADINGS */
-h2, h3 {
-    text-align: center;
-    margin-bottom: 12px;
+/* Neon Animated Border */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: 22px;
+    background: linear-gradient(
+        135deg,
+        #00eaff,
+        #00fff2,
+        #00d5ff,
+        #00b7ff
+    );
+    background-size: 300% 300%;
+    animation: borderShine 5s infinite linear;
+
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
 }
 
-/* =============================================
-   INPUTS
-============================================= */
+@keyframes borderShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* =======================================================
+      INPUTS + BUTTONS GLOW
+======================================================= */
 input, select {
     width: 100%;
     padding: 14px;
     margin: 12px 0;
-    border-radius: 12px;
+    border-radius: 14px;
     background: rgba(255,255,255,0.07);
     border: 1px solid var(--border);
     color: var(--text);
     font-size: 16px;
-    outline: none;
 }
 
-/* =============================================
-   BUTTONS
-============================================= */
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 14px;
-    border-radius: 12px;
-    background: #00f5ff;
-    color: #003033;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
+input:focus, select:focus {
+    box-shadow: 0 0 12px rgba(0,255,255,0.9);
+    border-color: #00f5ff;
     transition: 0.3s;
 }
 
-button:hover {
-    opacity: 0.85;
+/* Buttons */
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #00f5ff, #00bfff);
+    border: none;
+    color: #00282d;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow:
+        0 0 12px rgba(0,255,255,0.6),
+        0 0 26px rgba(0,255,255,0.35);
+    transition: 0.25s;
 }
 
-/* =============================================
-   RESULT BOX
-============================================= */
+button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 24px rgba(0,255,255,1),
+        0 0 40px rgba(0,255,255,0.7);
+}
+
+/* =======================================================
+      RESULT BOX (Glow Text)
+======================================================= */
 .result {
     margin-top: 16px;
     padding: 18px;
-    border-radius: 12px;
+    border-radius: 14px;
     background: rgba(255,255,255,0.06);
     border: 1px solid var(--border);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(12px);
 }
 
 .big-output {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
     margin-top: 12px;
-    color: #aaffff;
+    color: #afffff;
+    text-shadow: 0 0 12px rgba(0,255,255,0.9);
 }
 
-.output-label {
-    font-size: 15px;
-    opacity: 0.85;
-}
-
-.output-line {
-    border-top: 1px solid rgba(255,255,255,0.25);
-    margin: 12px 0;
-}
-
-/* COPY BUTTON */
+/* Copy Button */
 .copy-btn {
-    padding: 10px;
-    background: #00f5ff;
-    color: #000;
-    border-radius: 10px;
     margin-top: 12px;
+    padding: 12px;
+    background: #00f5ff;
+    border-radius: 12px;
     font-weight: bold;
     cursor: pointer;
+    color: #001e22;
 }
 
-/* =============================================
-   RISK UI SLIDER + METER
-============================================= */
+/* =======================================================
+      RISK SLIDER UI
+======================================================= */
 .risk-bar {
     width: 100%;
     height: 10px;
@@ -162,17 +258,16 @@ button:hover {
 .risk-fill {
     height: 100%;
     width: 0%;
-    border-radius: 10px;
+    background: #00ff9d;
     transition: 0.3s ease;
 }
 
 .risk-label {
     margin-top: 8px;
-    font-size: 14px;
     opacity: 0.85;
 }
 
-/* Slider */
+/* Range Slider */
 input[type="range"] {
     width: 100%;
     margin-top: 10px;
@@ -181,18 +276,19 @@ input[type="range"] {
 }
 
 input[type="range"]::-webkit-slider-thumb {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     background: #00f5ff;
     border-radius: 50%;
     cursor: pointer;
     -webkit-appearance: none;
+    box-shadow: 0 0 15px rgba(0,255,255,0.7);
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-    height: 6px;
-    background: rgba(255,255,255,0.35);
-    border-radius: 10px;
+    height: 7px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 12px;
 }
 
 </style>
@@ -200,23 +296,27 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <body>
 
+<div class="card-wrapper">
 <div class="card">
 
 <h2>JR Trading Calculator Pro</h2>
 
 <button onclick="toggleTheme()">Toggle Theme (Optional)</button>
 
+<!-- ============================ -->
+<!-- PAIR SELECTION -->
+<!-- ============================ -->
 <label>Select Pair</label>
 <select id="pair">
-    <option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
-    <option>NZDUSD</option><option>USDJPY</option><option>USDCHF</option>
-    <option>USDCAD</option><option>EURGBP</option><option>EURJPY</option>
-    <option>GBPJPY</option><option>AUDJPY</option><option>CHFJPY</option>
-    <option>EURAUD</option><option>EURNZD</option>
-    <option>XAUUSD</option><option>XAGUSD</option>
-    <option>BTCUSD</option><option>ETHUSD</option>
-    <option>US30</option><option>NAS100</option><option>SPX500</option>
-    <option>GER40</option><option>UK100</option><option>JP225</option>
+<option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
+<option>NZDUSD</option><option>USDJPY</option><option>USDCHF</option>
+<option>USDCAD</option><option>EURGBP</option><option>EURJPY</option>
+<option>GBPJPY</option><option>AUDJPY</option><option>CHFJPY</option>
+<option>EURAUD</option><option>EURNZD</option>
+<option>XAUUSD</option><option>XAGUSD</option>
+<option>BTCUSD</option><option>ETHUSD</option>
+<option>US30</option><option>NAS100</option><option>SPX500</option>
+<option>GER40</option><option>UK100</option><option>JP225</option>
 </select>
 
 <label>Pips / Points</label>
@@ -233,6 +333,9 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <hr class="output-line">
 
+<!-- ============================ -->
+<!-- POSITION SIZE -->
+<!-- ============================ -->
 <h3>Position Size Calculator</h3>
 
 <label>Account Balance ($)</label>
@@ -255,6 +358,9 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <hr class="output-line">
 
+<!-- ============================ -->
+<!-- TICK → PIP -->
+<!-- ============================ -->
 <h3>Tick → Pip Converter</h3>
 <label>Ticks</label>
 <input type="number" id="ticks">
@@ -263,143 +369,109 @@ input[type="range"]::-webkit-slider-runnable-track {
 <div id="tickResult" class="result"></div>
 
 </div>
+</div>
 
 <script>
 
-/* =====================================================================================
-   AUTO PIP VALUE TABLE
-===================================================================================== */
+/* =====================================================
+      AUTO PIP VALUES
+===================================================== */
 const pipValues = {
-    EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
-    USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
-    EURAUD:10, EURNZD:10, XAUUSD:1, XAGUSD:0.5, BTCUSD:0.1, ETHUSD:0.1,
-    US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
+ EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
+ USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
+ EURAUD:10, EURNZD:10, XAUUSD:1, XAGUSD:0.5, BTCUSD:0.1, ETHUSD:0.1,
+ US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
 };
 
 document.getElementById("pipValue").value = pipValues["EURUSD"];
-
-document.getElementById("pair").addEventListener("change", function () {
-    document.getElementById("pipValue").value = pipValues[this.value];
+document.getElementById("pair").addEventListener("change", () => {
+    pipValue.value = pipValues[pair.value];
 });
 
-
-/* =====================================================================================
-   AUTO + MANUAL THEME
-===================================================================================== */
+/* =====================================================
+      MANUAL THEME TOGGLE
+===================================================== */
 let manualTheme = false;
-
 function toggleTheme() {
     manualTheme = true;
-    let now = document.body.getAttribute("data-theme");
-    document.body.setAttribute("data-theme", now === "light" ? "dark" : "light");
+    let t = document.body.getAttribute("data-theme");
+    document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
 }
 
+/* =====================================================
+      RISK METER LIVE UPDATE
+===================================================== */
+riskSlider.addEventListener("input", () => {
 
-/* =====================================================================================
-   RISK SLIDER UI
-===================================================================================== */
-const riskSlider = document.getElementById('riskSlider');
-const riskValue  = document.getElementById('riskValue');
-const riskFill   = document.getElementById('riskFill');
-const riskLabel  = document.getElementById('riskLabel');
+    let v = parseFloat(riskSlider.value);
+    riskValue.innerText = v + "%";
+    riskFill.style.width = (v * 20) + "%";
 
-riskSlider.addEventListener('input', function() {
-    let val = parseFloat(this.value);
-    riskValue.innerHTML = val + "%";
-
-    riskFill.style.width = (val * 20) + "%";
-
-    if (val <= 1) {
+    if (v <= 1) {
         riskFill.style.background = "#00ff9d";
         riskLabel.innerHTML = "Safe Risk";
-    } else if (val <= 2) {
+    } else if (v <= 2) {
         riskFill.style.background = "#faff00";
         riskLabel.innerHTML = "Moderate Risk";
-    } else if (val <= 3) {
+    } else if (v <= 3) {
         riskFill.style.background = "#ffa600";
         riskLabel.innerHTML = "High Risk";
     } else {
         riskFill.style.background = "#ff0033";
-        riskLabel.innerHTML = "Very High Risk";
+        riskLabel.innerHTML = "VERY High Risk";
     }
 });
 
-
-/* =====================================================================================
-   PROFIT CALCULATOR
-===================================================================================== */
+/* =====================================================
+      PROFIT CALCULATOR
+===================================================== */
 function calculateProfit() {
-    let pips = parseFloat(document.getElementById("pips").value);
-    let lot = parseFloat(document.getElementById("lot").value);
-    let pair = document.getElementById("pair").value;
-
-    if (!pips || !lot) {
-        document.getElementById("profitResult").innerHTML = "Enter valid values.";
-        return;
-    }
-
-    let profit = pips * lot * pipValues[pair];
-
-    document.getElementById("profitResult").innerHTML =
-        `<div class="big-output">Profit: $${profit.toFixed(2)}</div>`;
+    let p = parseFloat(pips.value);
+    let l = parseFloat(lot.value);
+    if (!p || !l) return profitResult.innerHTML = "Enter valid values";
+    let val = p * l * pipValues[pair.value];
+    profitResult.innerHTML = `<div class="big-output">Profit: $${val.toFixed(2)}</div>`;
 }
 
-
-/* =====================================================================================
-   POSITION SIZE CALCULATOR
-===================================================================================== */
+/* =====================================================
+      POSITION SIZE CALCULATOR
+===================================================== */
 function positionSize() {
-    let bal = parseFloat(document.getElementById("balance").value);
-    let risk = parseFloat(document.getElementById("riskSlider").value);
-    let sl  = parseFloat(document.getElementById("sl").value);
-    let pair = document.getElementById("pair").value;
+    let bal = parseFloat(balance.value);
+    let risk = parseFloat(riskSlider.value);
+    let sl = parseFloat(sl.value);
+    if (!bal || !risk || !sl) return posResult.innerHTML = "Enter valid values";
 
-    if (!bal || !risk || !sl) {
-        document.getElementById("posResult").innerHTML = "Enter valid numbers.";
-        return;
-    }
+    let pipV = pipValues[pair.value];
+    let riskAmt = bal * (risk / 100);
+    let lots = riskAmt / (sl * pipV);
 
-    let pipValue = pipValues[pair];
-    let riskAmount = bal * (risk / 100);
-    let lots = riskAmount / (sl * pipValue);
-
-    let html = `
-        <div><span class='output-label'>Pair:</span> ${pair}</div>
-        <div><span class='output-label'>Risk Amount:</span> $${riskAmount.toFixed(2)}</div>
-        <div><span class='output-label'>Stop Loss:</span> ${sl} pips</div>
-        <div><span class='output-label'>Pip Value Used:</span> $${pipValue}</div>
-
+    posResult.innerHTML = `
+        <div><span class="output-label">Pair:</span> ${pair.value}</div>
+        <div><span class="output-label">Risk Amount:</span> $${riskAmt.toFixed(2)}</div>
+        <div><span class="output-label">Stop Loss:</span> ${sl} pips</div>
+        <div><span class="output-label">Pip Value Used:</span> $${pipV}</div>
         <div class="output-line"></div>
-
         <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
-
         <button class="copy-btn" onclick="copyPositionResult()">Copy</button>
     `;
-
-    document.getElementById("posResult").innerHTML = html;
 }
 
-
-/* COPY RESULT */
+/* =====================================================
+      COPY RESULT
+===================================================== */
 function copyPositionResult() {
-    let text = document.getElementById("posResult").innerText;
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(posResult.innerText);
     alert("Copied!");
 }
 
-
-/* =====================================================================================
-   TICK → PIP CONVERTER
-===================================================================================== */
+/* =====================================================
+      TICK → PIP
+===================================================== */
 function convertTicks() {
-    let ticks = parseFloat(document.getElementById("ticks").value);
-    if (!ticks) {
-        document.getElementById("tickResult").innerHTML = "Enter valid input.";
-        return;
-    }
-
-    document.getElementById("tickResult").innerHTML =
-        `<div class="big-output">${ticks / 10} pips</div>`;
+    let t = parseFloat(ticks.value);
+    if (!t) return tickResult.innerHTML = "Enter valid input";
+    tickResult.innerHTML = `<div class="big-output">${t/10} pips</div>`;
 }
 
 </script>
