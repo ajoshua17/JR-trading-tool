@@ -9,38 +9,26 @@
 <style>
 
 /* ================================================
-   BASE THEME (Dark Default)
+   BASE THEME (Optimized for Android)
 ================================================ */
 :root {
     --bg: #02070a;
     --text: #eaffff;
     --card: rgba(255,255,255,0.10);
     --border: rgba(0,255,255,0.25);
-    --glow: rgba(0,255,255,0.4);
+    --glow: rgba(0,255,255,0.35);
 }
 
 /* Light Mode */
 body[data-theme="light"] {
     --bg: #f5fcff;
-    --text: #002e34;
-    --card: rgba(255,255,255,0.65);
-    --border: rgba(0,0,0,0.2);
-    --glow: rgba(0,0,0,0.1);
-}
-
-/* Auto System Light */
-@media (prefers-color-scheme: light) {
-  body:not([data-theme]) {
-    --bg: #f5fcff;
     --text: #003033;
     --card: rgba(255,255,255,0.65);
-    --border: rgba(0,0,0,0.2);
-    --glow: rgba(0,0,0,0.2);
-  }
+    --border: rgba(0,0,0,0.15);
 }
 
 /* ================================================
-   BODY + BACKGROUND EFFECTS (Fix Touch Issues)
+   BODY + BACKGROUND GRID (Optimized)
 ================================================ */
 body {
     margin: 0;
@@ -49,107 +37,112 @@ body {
     color: var(--text);
     font-family: Arial, sans-serif;
     overflow-x: hidden;
-    position: relative;
-    z-index: 1;
 }
 
-/* Neon Grid */
+/* Light Neon Grid */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     background:
-        repeating-linear-gradient(90deg, rgba(0,255,255,0.05) 0, rgba(0,255,255,0.05) 1px, transparent 1px, transparent 65px),
-        repeating-linear-gradient(0deg, rgba(0,255,255,0.05) 0, rgba(0,255,255,0.05) 1px, transparent 1px, transparent 65px);
-    z-index: -10 !important;
+        repeating-linear-gradient(90deg, rgba(0,255,255,0.03) 0, rgba(0,255,255,0.03) 1px, transparent 1px, transparent 70px),
+        repeating-linear-gradient(0deg, rgba(0,255,255,0.03) 0, rgba(0,255,255,0.03) 1px, transparent 1px, transparent 70px);
+    z-index: -10;
     pointer-events: none;
 }
 
-/* Floating Particles */
+/* Soft-floating particles (lighter for Android) */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
     background-image:
-        radial-gradient(circle, rgba(0,255,255,0.4) 3px, transparent 4px),
-        radial-gradient(circle, rgba(0,255,255,0.4) 4px, transparent 5px);
-    background-size: 200px 200px, 260px 260px;
-    animation: floatParticles 14s infinite linear;
-    z-index: -9 !important;
+        radial-gradient(circle, rgba(0,255,255,0.25) 2px, transparent 3px),
+        radial-gradient(circle, rgba(0,255,255,0.25) 2px, transparent 3px);
+    background-size: 220px 220px, 300px 300px;
+    animation: floatParticles 18s infinite linear;
     pointer-events: none;
+    z-index: -9;
 }
 
 @keyframes floatParticles {
-    0% { transform: translate(0, 0); }
-    50% { transform: translate(20px, -40px); }
-    100% { transform: translate(0, 0); }
+    0% { transform: translate(0,0); }
+    50% { transform: translate(25px,-30px); }
+    100% { transform: translate(0,0); }
 }
 
 /* ================================================
-   CARD WRAPPER (Glow Rings Behind Card)
+   CARD WRAPPER + GLOW RING
 ================================================ */
 .card-wrapper {
-    position: relative;
     max-width: 520px;
     margin: auto;
-    padding-top: 40px;
-    z-index: 20;  /* FIXED */
+    margin-top: 20px;
+    position: relative;
+    z-index: 10;
 }
 
 .card-wrapper::before {
     content: "";
     position: absolute;
     top: 50%; left: 50%;
-    width: 360px; height: 360px;
-    transform: translate(-50%, -50%);
+    width: 300px; height: 300px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,255,255,0.35), transparent 70%);
-    filter: blur(35px);
-    animation: pulseGlow 5s infinite ease-in-out;
-    z-index: -5 !important;
-    pointer-events: none;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(0,255,255,0.25), transparent 70%);
+    filter: blur(20px);
+    animation: pulseGlow 4s ease-in-out infinite;
+    z-index: -1;
 }
 
 @keyframes pulseGlow {
-    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.55; }
-    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.55; }
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.45; }
+    50% { transform: translate(-50%, -50%) scale(1.10); opacity: 0.9; }
+    100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.45; }
 }
 
 /* ================================================
-   MAIN CARD (Neon Border + Glassmorphism)
+   MAIN CARD (Rounded + Balanced Glow)
 ================================================ */
 .card {
-    padding: 26px;
-    background: var(--card);
+    padding: 22px;
     border-radius: 22px;
-    backdrop-filter: blur(25px);
+    background: var(--card);
     position: relative;
-    z-index: 30;  /* FIXED */
+    box-shadow: 0 0 20px rgba(0,255,255,0.25);
 }
 
-/* Animated Neon Border */
+/* Animated border (smooth + optimized) */
 .card::before {
     content: "";
     position: absolute;
     inset: 0;
-    padding: 2px;
     border-radius: 22px;
-    background: linear-gradient(135deg, #00eaff, #00fff2, #00d5ff, #00b7ff);
-    background-size: 300% 300%;
-    animation: shineBorder 5s infinite linear;
+    padding: 2px;
+    background: linear-gradient(135deg, #00eaff, #00bfff, #00f5ff);
+    background-size: 200% 200%;
+    animation: borderAnim 5s linear infinite;
+    opacity: 0.7;
 
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
 }
 
-@keyframes shineBorder {
+@keyframes borderAnim {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+/* ================================================
+   HEADERS
+================================================ */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 /* ================================================
@@ -157,19 +150,17 @@ body::after {
 ================================================ */
 input, select {
     width: 100%;
-    padding: 14px;
-    margin: 12px 0;
+    padding: 16px;
+    margin: 14px 0;
     border-radius: 14px;
     background: rgba(255,255,255,0.08);
     border: 1px solid var(--border);
     color: var(--text);
-    font-size: 16px;
-    z-index: 30;
-    position: relative;
+    font-size: 17px;
 }
 
 input:focus, select:focus {
-    box-shadow: 0 0 12px rgba(0,255,255,0.9);
+    box-shadow: 0 0 10px rgba(0,255,255,0.6);
     border-color: #00f5ff;
 }
 
@@ -178,23 +169,22 @@ input:focus, select:focus {
 ================================================ */
 button {
     width: 100%;
-    padding: 14px;
-    margin-top: 14px;
+    padding: 16px;
+    margin-top: 16px;
     border-radius: 14px;
     border: none;
     background: linear-gradient(135deg, #00f5ff, #00bfff);
     color: #003033;
     font-weight: bold;
-    z-index: 30;
-    position: relative;
+    font-size: 16px;
     cursor: pointer;
-    transition: 0.25s;
     box-shadow: 0 0 15px rgba(0,255,255,0.6);
+    transition: 0.25s;
 }
 
 button:hover {
-    transform: translateY(-2px);
     box-shadow: 0 0 25px rgba(0,255,255,1);
+    transform: translateY(-2px);
 }
 
 /* ================================================
@@ -204,68 +194,61 @@ button:hover {
     background: rgba(255,255,255,0.07);
     padding: 18px;
     border-radius: 14px;
-    margin-top: 14px;
+    margin-top: 16px;
     border: 1px solid var(--border);
-    backdrop-filter: blur(14px);
 }
 
 .big-output {
     font-size: 24px;
     font-weight: bold;
-    margin-top: 12px;
     color: #afffff;
-    text-shadow: 0 0 12px rgba(0,255,255,1);
-}
-
-/* Copy Button */
-.copy-btn {
-    margin-top: 12px;
-    padding: 12px;
-    background: #00f5ff;
-    border-radius: 12px;
-    font-weight: bold;
-    color: #00282d;
-    cursor: pointer;
-    width: 100%;
+    text-shadow: 0 0 10px rgba(0,255,255,0.8);
 }
 
 /* ================================================
-   RISK SLIDER UI
+   RISK SLIDER
 ================================================ */
 .risk-bar {
     width: 100%;
-    height: 10px;
     background: rgba(255,255,255,0.15);
+    height: 10px;
     border-radius: 10px;
-    overflow: hidden;
 }
 
 .risk-fill {
-    height: 100%;
+    height: 10px;
     width: 0%;
+    border-radius: 10px;
     transition: 0.3s;
 }
 
 input[type="range"] {
     width: 100%;
-    margin-top: 10px;
-    background: transparent;
+    margin-top: 12px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
     background: #00f5ff;
     border-radius: 50%;
+    box-shadow: 0 0 12px rgba(0,255,255,0.8);
     cursor: pointer;
     -webkit-appearance: none;
-    box-shadow: 0 0 15px rgba(0,255,255,0.7);
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
-    height: 7px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 10px;
+/* ================================================
+   COPY BUTTON
+================================================ */
+.copy-btn {
+    margin-top: 12px;
+    padding: 12px;
+    background: #00f5ff;
+    color: #003033;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
 }
 
 </style>
@@ -277,6 +260,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 <div class="card">
 
 <h2>JR Trading Calculator Pro</h2>
+
 <button onclick="toggleTheme()">Toggle Theme</button>
 
 <!-- PAIR SELECTION -->
@@ -317,9 +301,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 <input type="range" id="riskSlider" min="0.1" max="5" step="0.1" value="1">
 <div id="riskValue">1%</div>
 
-<div class="risk-bar">
-  <div id="riskFill" class="risk-fill"></div>
-</div>
+<div class="risk-bar"><div id="riskFill" class="risk-fill"></div></div>
 <div id="riskLabel">Safe Risk</div>
 
 <label>Stop Loss (pips)</label>
@@ -343,7 +325,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <script>
 
-/* PIP TABLE */
+/* PIP VALUES */
 const pipValues = {
  EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
  USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
@@ -356,28 +338,28 @@ pair.addEventListener("change", () => pipValue.value = pipValues[pair.value]);
 
 /* THEME TOGGLE */
 function toggleTheme() {
-  let t = document.body.getAttribute("data-theme");
-  document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
+    let t = document.body.getAttribute("data-theme");
+    document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
 }
 
 /* RISK SLIDER */
 riskSlider.addEventListener("input", () => {
     let v = parseFloat(riskSlider.value);
-    riskValue.innerText = v + "%";
+    riskValue.innerHTML = v + "%";
     riskFill.style.width = (v * 20) + "%";
 
     if (v <= 1) {
         riskFill.style.background = "#00ff9d";
-        riskLabel.innerText = "Safe Risk";
+        riskLabel.innerHTML = "Safe Risk";
     } else if (v <= 2) {
         riskFill.style.background = "#faff00";
-        riskLabel.innerText = "Moderate Risk";
+        riskLabel.innerHTML = "Moderate Risk";
     } else if (v <= 3) {
         riskFill.style.background = "#ffa600";
-        riskLabel.innerText = "High Risk";
+        riskLabel.innerHTML = "High Risk";
     } else {
         riskFill.style.background = "#ff0033";
-        riskLabel.innerText = "VERY High Risk";
+        riskLabel.innerHTML = "Very High Risk";
     }
 });
 
@@ -385,27 +367,29 @@ riskSlider.addEventListener("input", () => {
 function calculateProfit() {
     let p = parseFloat(pips.value);
     let l = parseFloat(lot.value);
-    if (!p || !l) return profitResult.innerHTML = "Enter valid inputs";
-
+    if (!p || !l) {
+        profitResult.innerHTML = "Enter valid inputs";
+        return;
+    }
     let val = p * l * pipValues[pair.value];
     profitResult.innerHTML = `<div class="big-output">Profit: $${val.toFixed(2)}</div>`;
 }
 
-/* ============================================
-   FIXED POSITION SIZE CALCULATOR
-============================================ */
+/* POSITION SIZE (FIXED) */
 function positionSize() {
     let bal = parseFloat(balance.value);
     let risk = parseFloat(riskSlider.value);
     let slv = parseFloat(sl.value);
 
-    if (!bal || !risk || !slv)
-        return posResult.innerHTML = "Enter valid inputs";
+    if (!bal || !risk || !slv) {
+        posResult.innerHTML = "Enter valid inputs";
+        return;
+    }
 
     let pipV = pipValues[pair.value];
     let riskAmt = bal * (risk / 100);
 
-    /* FIXED LINE — using slv instead of sl */
+    /* FIXED LOT CALCULATION */
     let lots = riskAmt / (slv * pipV);
 
     posResult.innerHTML = `
@@ -428,7 +412,10 @@ function copyPositionResult() {
 /* TICKS */
 function convertTicks() {
     let t = parseFloat(ticks.value);
-    if (!t) return tickResult.innerHTML = "Enter valid input";
+    if (!t) {
+        tickResult.innerHTML = "Enter valid input";
+        return;
+    }
     tickResult.innerHTML = `<div class="big-output">${t/10} pips</div>`;
 }
 
