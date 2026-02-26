@@ -2,60 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <title>JR Trading Calculator Pro</title>
 
 <style>
 
-/* ====================================
-   COLOR VARIABLES (DARK DEFAULT)
-==================================== */
+/* =============================
+   BASE THEME VARIABLES
+============================= */
 :root {
     --bg: #0f0f0f;
     --text: #e9ffff;
-    --card: rgba(255, 255, 255, 0.08);
-    --border: rgba(255, 255, 255, 0.2);
-    --glow: rgba(0,255,255,0.12);
+    --card: rgba(255,255,255,0.10);
+    --border: rgba(255,255,255,0.18);
+    --glow: rgba(0,255,255,0.20);
 }
 
-/* ====================================
-   AUTO LIGHT MODE (SYSTEM-BASED)
-==================================== */
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg: #f5f7fa;
-        --text: #003b3b;
-        --card: rgba(255, 255, 255, 0.55);
-        --border: rgba(0,0,0,0.15);
-        --glow: rgba(0,0,0,0.08);
-    }
-}
-
-/* ====================================
-   BODY
-==================================== */
+/* =============================
+   BODY + SAFE AREA FIXES
+============================= */
 body {
     margin: 0;
-    padding: 20px;
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
     font-family: Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
-    transition: 0.4s;
+    transition: 0.35s;
 }
 
-/* ====================================
-   GLASS CARD
-==================================== */
+/* =============================
+   MAIN CARD (SINGLE LAYOUT)
+============================= */
 .card {
-    max-width: 500px;
+    width: 100%;
+    max-width: 520px;
     margin: auto;
     padding: 25px;
-    border-radius: 18px;
-    backdrop-filter: blur(18px);
+    box-sizing: border-box;
+
     background: var(--card);
     border: 1px solid var(--border);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
     box-shadow: 0 8px 30px var(--glow);
+
     animation: fadeIn 0.4s ease;
 }
 
@@ -66,88 +57,120 @@ body {
 
 h2, h3 {
     text-align: center;
-    font-weight: bold;
     margin-bottom: 12px;
+    font-weight: bold;
+    line-height: 1.3;
 }
 
-/* ====================================
+/* =============================
    INPUTS
-==================================== */
+============================= */
 input, select {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     margin: 12px 0;
     border-radius: 12px;
-    background: rgba(255,255,255,0.09);
+    background: rgba(255,255,255,0.07);
     border: 1px solid var(--border);
     color: var(--text);
     font-size: 16px;
     outline: none;
-    backdrop-filter: blur(10px);
 }
 
-/* ====================================
-   BUTTON
-==================================== */
+/* =============================
+   BUTTONS
+============================= */
 button {
     width: 100%;
     padding: 14px;
-    margin-top: 14px;
     border-radius: 12px;
-    background: rgba(0,255,255,0.8);
-    color: #001515;
     border: none;
     font-weight: bold;
     cursor: pointer;
+
+    background: #00f5ff;
+    color: black;
+    margin-top: 14px;
     transition: 0.25s;
 }
 
 button:hover {
-    background: rgba(0,255,255,1);
+    opacity: 0.85;
 }
 
-/* ====================================
+/* =============================
    RESULT BOX
-==================================== */
+============================= */
 .result {
-    margin-top: 15px;
-    padding: 15px;
+    margin-top: 16px;
+    padding: 18px;
     border-radius: 12px;
     background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.2);
-    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
 }
 
 .big-output {
     font-size: 22px;
     font-weight: bold;
     margin-top: 12px;
-    color: #9fffff;
+    color: #aaffff;
 }
 
 .output-label {
     font-size: 15px;
-    color: #b5ffff;
+    opacity: 0.85;
 }
 
 .output-line {
     border-top: 1px solid rgba(255,255,255,0.25);
-    margin: 10px 0;
+    margin: 12px 0;
 }
 
-/* Copy Button */
+/* COPY BUTTON */
 .copy-btn {
-    margin-top: 10px;
     padding: 10px;
+    width: 100%;
     border-radius: 10px;
-    background: rgba(0,255,255,0.8);
+    background: #00f5ff;
     color: #000;
+    margin-top: 12px;
     cursor: pointer;
     font-weight: bold;
 }
 
+/* =============================
+   DARK/LIGHT MANUAL THEME
+============================= */
+
+body[data-theme="dark"] {
+    --bg: #0f0f0f;
+    --text: #e9ffff;
+    --card: rgba(255,255,255,0.10);
+    --border: rgba(255,255,255,0.18);
+}
+
+body[data-theme="light"] {
+    --bg: #f6faff;
+    --text: #002f33;
+    --card: rgba(255,255,255,0.65);
+    --border: rgba(0,0,0,0.18);
+}
+
+/* AUTO LIGHT THEME (ONLY IF USER HASN'T TOGGLED) */
+@media (prefers-color-scheme: light) {
+    body:not([data-theme]) {
+        --bg: #f6faff;
+        --text: #002f33;
+        --card: rgba(255,255,255,0.65);
+        --border: rgba(0,0,0,0.18);
+    }
+}
+
 </style>
 </head>
+
+
 
 <body>
 
@@ -209,9 +232,14 @@ button:hover {
 
 </div>
 
+
+
+
 <script>
 
-/* AUTO PIP VALUES */
+/* =====================================
+      AUTO PIP TABLE
+===================================== */
 const pipValues = {
     EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
     USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
@@ -219,37 +247,41 @@ const pipValues = {
     US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
 };
 
-/* AUTO UPDATE PIP VALUE WHEN PAIR CHANGES */
+/* SET DEFAULT */
+document.getElementById("pipValue").value = pipValues["EURUSD"];
+
 document.getElementById("pair").addEventListener("change", function () {
     document.getElementById("pipValue").value = pipValues[this.value];
 });
-document.getElementById("pipValue").value = pipValues["EURUSD"];
 
-/* ====================================
-   AUTO DARK/LIGHT THEME
-==================================== */
+
+/* =====================================
+      AUTO DARK/LIGHT
+===================================== */
 let manualTheme = false;
 
 function applyAutoTheme() {
     if (manualTheme) return;
     const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-    document.body.setAttribute("data-theme", prefersLight ? "light" : "dark");
+    if (prefersLight) document.body.removeAttribute("data-theme");
+    else document.body.removeAttribute("data-theme");
 }
 
 applyAutoTheme();
 
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyAutoTheme);
 
 /* Manual Toggle */
 function toggleTheme() {
     manualTheme = true;
-    let current = document.body.getAttribute("data-theme");
-    document.body.setAttribute("data-theme", current === "light" ? "dark" : "light");
+    let now = document.body.getAttribute("data-theme");
+    document.body.setAttribute("data-theme", now === "light" ? "dark" : "light");
 }
 
-/* ====================================
-   PROFIT CALCULATOR
-==================================== */
+
+
+/* =====================================
+      PROFIT CALCULATOR
+===================================== */
 function calculateProfit() {
     let pips = parseFloat(document.getElementById("pips").value);
     let lot = parseFloat(document.getElementById("lot").value);
@@ -266,9 +298,11 @@ function calculateProfit() {
         `<div class="big-output">Profit: $${profit.toFixed(2)}</div>`;
 }
 
-/* ====================================
-   POSITION SIZE CALCULATOR
-==================================== */
+
+
+/* =====================================
+      POSITION SIZE
+===================================== */
 function positionSize() {
     let bal = parseFloat(document.getElementById("balance").value);
     let risk = parseFloat(document.getElementById("risk").value);
@@ -282,19 +316,21 @@ function positionSize() {
 
     let pipValue = pipValues[pair];
     let riskAmount = bal * (risk / 100);
-    let lotSize = riskAmount / (sl * pipValue);
+    let lots = riskAmount / (sl * pipValue);
 
-    let output =
+    let html =
         `<div class='output-label'>Pair:</div> ${pair}<br>
          <div class='output-label'>Risk Amount:</div> $${riskAmount.toFixed(2)}<br>
          <div class='output-label'>Stop Loss:</div> ${sl} pips<br>
          <div class='output-label'>Pip Value Used:</div> $${pipValue}
          <div class="output-line"></div>
-         <div class="big-output">Lot Size: ${lotSize.toFixed(2)} lots</div>
+         <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
          <button class="copy-btn" onclick="copyPositionResult()">Copy</button>`;
 
-    document.getElementById("posResult").innerHTML = output;
+    document.getElementById("posResult").innerHTML = html;
 }
+
+
 
 /* COPY */
 function copyPositionResult() {
@@ -303,16 +339,18 @@ function copyPositionResult() {
     alert("Copied!");
 }
 
-/* TICK → PIP */
+
+
+/* TICKS → PIPS */
 function convertTicks() {
     let ticks = parseFloat(document.getElementById("ticks").value);
     if (!ticks) {
-        document.getElementById("tickResult").innerHTML = "Enter valid value.";
+        document.getElementById("tickResult").innerHTML = "Enter valid input.";
         return;
     }
 
     document.getElementById("tickResult").innerHTML =
-        `<div class="big-output">${ticks / 10} pips</div>`;
+        `<div class="big-output">${ticks/10} pips</div>`;
 }
 
 </script>
