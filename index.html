@@ -1,564 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>JR Trading Calculator Pro</title>
-
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>JR UltraGlow v3 FULL</title>
 <style>
-
-/* ================================================
-   BASE THEME
-================================================ */
-:root {
-  --bg: #02070a;
-  --text: #eaffff;
-  --card: rgba(255,255,255,0.10);
-  --border: rgba(0,255,255,0.25);
-  --accent: #00f5ff;
-}
-
-/* Light Theme */
-body[data-theme="light"] {
-  --bg: #f5fcff;
-  --text: #003033;
-  --card: rgba(255,255,255,0.65);
-  --border: rgba(0,0,0,0.15);
-  --accent: #00bcd4;
-}
-
-/* ================================================
-   BODY + BACKGROUND + TRANSITION
-================================================ */
-body {
-  margin: 0;
-  padding: 20px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
-  transition: background .3s ease, color .3s ease;
-}
-
-/* ================================================
-   SIDEBAR NAVIGATION
-================================================ */
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: -260px;
-  width: 240px;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(12px);
-  padding: 20px;
-  transition: 0.4s ease;
-  z-index: 999999;
-  border-right: 1px solid var(--accent);
-  box-shadow: 0 0 20px var(--accent);
-}
-#sidebar.active { left: 0; }
-
-#sidebar h2 {
-  color: var(--accent);
-  text-align: center;
-  margin-bottom: 20px;
-}
-#sidebar button {
-  width: 100%;
-  margin: 10px 0;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  font-weight: bold;
-}
-
-/* Menu Toggle Icon */
-#menuBtn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 999999;
-  background: var(--accent);
-  border: none;
-  color: #00282d;
-  font-weight: bold;
-  padding: 12px 16px;
-  border-radius: 12px;
-  box-shadow: 0 0 12px var(--accent);
-}
-
-/* ================================================
-   CARD CONTAINER
-================================================ */
-.card-wrapper {
-  max-width: 520px;
-  margin: auto;
-  margin-top: 70px;
-  position: relative;
-}
-
-.card {
-  padding: 22px;
-  background: var(--card);
-  border-radius: 22px;
-  box-shadow: 0 0 20px rgba(0,255,255,.25);
-  position: relative;
-}
-
-/* Neon animated border */
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 2px;
-  border-radius: 22px;
-  background: linear-gradient(135deg,#00eaff,#00bfff,#00f5ff);
-  background-size: 200% 200%;
-  animation: borderMove 6s linear infinite;
-  opacity: .7;
-  pointer-events: none !important;
-}
-@keyframes borderMove {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-
-/* ================================================
-   INPUTS + DROPDOWNS
-================================================ */
-input,select {
-  width: 100%;
-  padding: 16px;
-  margin: 14px 0;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-size: 17px;
-  position: relative;
-  z-index: 999;
-}
-
-/* Dark dropdown fix */
-select, select option {
-  background: #001618 !important;
-  color: #afffff !important;
-  color-scheme: dark !important;
-}
-
-/* Light dropdown fix */
-body[data-theme="light"] select,
-body[data-theme="light"] select option {
-  background: #fff !important;
-  color: #003033 !important;
-  color-scheme: light !important;
-}
-
-input:focus, select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
-}
-
-/* ================================================
-   BUTTONS
-================================================ */
-button {
-  width: 100%;
-  padding: 16px;
-  border-radius: 14px;
-  border: none;
-  background: linear-gradient(135deg,var(--accent),#00bfff);
-  color: #003033;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 16px;
-  cursor: pointer;
-  box-shadow: 0 0 15px var(--accent);
-}
-button:hover { transform: translateY(-2px); }
-
-/* ================================================
-   RESULTS
-================================================ */
-.result {
-  background: rgba(255,255,255,0.08);
-  padding: 18px;
-  border-radius: 14px;
-  margin-top: 16px;
-  border: 1px solid var(--border);
-}
-.big-output {
-  font-size: 24px;
-  font-weight: bold;
-  color: #afffff;
-  text-shadow: 0 0 10px var(--accent);
-}
-
-/* Light readability fix */
-body[data-theme="light"] .big-output {
-  color: #004c4c;
-  text-shadow: none;
-}
-
-/* ================================================
-   RISK SLIDER
-================================================ */
-.risk-bar { width: 100%; height: 10px; background: rgba(255,255,255,.15); border-radius: 10px; }
-.risk-fill { height: 10px; width: 0%; border-radius: 10px; transition:.3s; }
-
-/* ================================================
-   COPY BUTTON
-================================================ */
-.copy-btn {
-  margin-top:12px;
-  padding:12px;
-  background: var(--accent);
-  color:#003033;
-  border-radius:12px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
+body{margin:0;padding:0;background:#0a0715;color:#efeaff;font-family:Arial;transition:0.3s;}
+body.light{background:#f2f2f7;color:#222;}
+.logo{position:absolute;top:18px;left:18px;height:40px;filter:drop-shadow(0 0 6px #9d4bff);}
+.section{display:none;padding:20px;}
+.active{display:block;}
+.card{background:rgba(255,255,255,0.07);padding:20px;border-radius:20px;max-width:480px;margin:80px auto;}
+body.light .card{background:white;color:black;}
+input,button{width:100%;padding:12px;margin-top:12px;border-radius:12px;border:1px solid #6440aa;background:rgba(255,255,255,0.08);color:white;}
+body.light input{background:#e6e6e6;color:black;border:1px solid #bbb;}
+button{background:#9D4BFF;}
+.navbar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.4);backdrop-filter:blur(20px);padding:14px 28px;border-radius:30px;display:flex;gap:26px;}
+.nav-item{font-size:24px;color:#caa8ff;opacity:.6;cursor:pointer;}
+.nav-item.sel{opacity:1;text-shadow:0 0 10px #caa8ff;}
+body.light .nav-item{color:#6a4aff;}
+.search-box{width:100%;padding:12px;border-radius:12px;text-align:center;margin-bottom:20px;border:1px solid #6a4aff;background:rgba(255,255,255,0.12);color:white;}
+body.light .search-box{background:#ddd;color:black;border:1px solid #aaa;}
+.pair-list div{padding:14px;border-bottom:1px solid #333;cursor:pointer;}
+body.light .pair-list div{border-bottom:1px solid #ccc;}
 </style>
 </head>
 
-<body data-theme="dark">
+<body>
 
-<!-- ================================================
-     SIDEBAR MENU
-================================================ -->
-<button id="menuBtn" onclick="toggleMenu()">☰ Menu</button>
+<img src="JR Forex Trading Gold Logo.png" class="logo">
 
-<div id="sidebar">
-  <h2>JR Tools</h2>
-
-  <button onclick="showSection('profitSection')">Profit Calculator</button>
-  <button onclick="showSection('positionSection')">Position Size</button>
-  <button onclick="showSection('tickSection')">Tick → Pip</button>
-  <button onclick="showSection('rrSection')">RR Calculator</button>
-  <button onclick="showSection('journalSection')">Trade Journal</button>
-
-  <button onclick="toggleTheme()">Toggle Theme</button>
+<!-- PAIRS -->
+<div id='pairs' class='section active'>
+<h2 style='text-align:center;margin-top:60px;'>Select Pair</h2>
+<input id='search' class='search-box' placeholder='Search pair…' onkeyup='filterPairs()'>
+<div id='pairList'>
+</div>
 </div>
 
-<!-- ================================================
-     MAIN CARD
-================================================ -->
-<div class="card-wrapper">
-<div class="card">
+<!-- HOME -->
+<div id='home' class='section'>
+<div class='card'>
+<h2>Profit Calculator</h2>
+<input id='pips' placeholder='Pips'>
+<input id='lot' value='1' placeholder='Lot Size'>
+<button onclick='calcProfit()'>Calculate</button>
+<div id='profitResult'></div>
+</div></div>
 
-<h2 id="sectionTitle">Profit Calculator</h2>
+<!-- POSITION -->
+<div id='position' class='section'>
+<div class='card'>
+<h2>Position Size Calculator</h2>
+<input id='balance' placeholder='Account Balance ($)'>
+<input id='risk' placeholder='Risk %'>
+<input id='sl' placeholder='Stop Loss (pips)'>
+<button onclick='calcPos()'>Calculate</button>
+<div id='posResult'></div>
+</div></div>
 
-<!-- ================================================
-     SECTION: PROFIT CALCULATOR
-================================================ -->
-<div id="profitSection" class="section">
+<!-- RR -->
+<div id='rr' class='section'>
+<div class='card'>
+<h2>RR Calculator</h2>
+<input id='entry' placeholder='Entry Price'>
+<input id='slp' placeholder='Stop Loss Price'>
+<input id='tp' placeholder='Take Profit Price'>
+<button onclick='calcRR()'>Calculate</button>
+<div id='rrResult'></div>
+</div></div>
 
-<label>Select Pair</label>
-<select id="pair">
-<option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
-<option>NZDUSD</option><option>USDJPY</option><option>USDCHF</option>
-<option>USDCAD</option><option>EURGBP</option><option>EURJPY</option>
-<option>GBPJPY</option><option>AUDJPY</option><option>CHFJPY</option>
-<option>EURAUD</option><option>EURNZD</option>
-<option>XAUUSD</option><option>XAGUSD</option>
-<option>BTCUSD</option><option>ETHUSD</option>
-<option>US30</option><option>NAS100</option><option>SPX500</option>
-<option>GER40</option><option>UK100</option><option>JP225</option>
-</select>
+<!-- TICK -->
+<div id='tick' class='section'>
+<div class='card'>
+<h2>Tick → Pip Converter</h2>
+<input id='ticks' placeholder='Ticks'>
+<button onclick='convTick()'>Convert</button>
+<div id='tickResult'></div>
+</div></div>
 
-<label>Pips / Points</label>
-<input type="number" id="pips">
+<!-- JOURNAL -->
+<div id='journal' class='section'>
+<div class='card'>
+<h2>Trade Journal</h2>
+<button onclick='saveTrade()'>Save Trade</button>
+<button onclick='exportJournal()'>Export CSV</button>
+<div id='journalMsg'></div>
+</div></div>
 
-<label>Lot Size</label>
-<input type="number" id="lot" value="1">
+<!-- SETTINGS -->
+<div id='settings' class='section'>
+<div class='card'>
+<h2>Settings</h2>
+<button onclick='toggleTheme()'>Toggle Theme</button>
+</div></div>
 
-<label>Pip Value</label>
-<input type="number" id="pipValue" readonly>
-
-<button onclick="calculateProfit()">Calculate Profit</button>
-<div id="profitResult" class="result"></div>
-
-</div>
-
-<!-- ================================================
-     SECTION: POSITION SIZE
-================================================ -->
-<div id="positionSection" class="section" style="display:none">
-
-<h3>Position Size Calculator</h3>
-
-<label>Account Balance</label>
-<input type="number" id="balance">
-
-<label>Risk %</label>
-<input type="range" id="riskSlider" min="0.1" max="5" step="0.1" value="1">
-<div id="riskValue">1%</div>
-
-<div class="risk-bar"><div id="riskFill" class="risk-fill"></div></div>
-<div id="riskLabel">Safe Risk</div>
-
-<label>Stop Loss (pips)</label>
-<input type="number" id="sl">
-
-<button onclick="positionSize()">Calculate Position Size</button>
-<div id="posResult" class="result"></div>
-
-</div>
-
-<!-- ================================================
-     SECTION: TICK TO PIP
-================================================ -->
-<div id="tickSection" class="section" style="display:none">
-
-<h3>Tick → Pip Converter</h3>
-
-<label>Ticks</label>
-<input type="number" id="ticks">
-
-<button onclick="convertTicks()">Convert</button>
-<div id="tickResult" class="result"></div>
-
-</div>
-
-<!-- ================================================
-     SECTION: RR CALCULATOR (TradingView Style)
-================================================ -->
-<div id="rrSection" class="section" style="display:none">
-
-<h3>Risk–Reward Calculator</h3>
-
-<label>Entry Price</label>
-<input type="number" id="rrEntry">
-
-<label>Stop Loss Price</label>
-<input type="number" id="rrSL">
-
-<label>Take Profit Price</label>
-<input type="number" id="rrTP">
-
-<button onclick="calcRR()">Calculate R:R</button>
-<div id="rrResult" class="result"></div>
-
-</div>
-
-<!-- ================================================
-     SECTION: TRADE JOURNAL
-================================================ -->
-<div id="journalSection" class="section" style="display:none">
-
-<h3>Trade Journal</h3>
-
-<button onclick="saveTrade()">Save Trade</button>
-<button onclick="exportJournal()">Export Journal CSV</button>
-
-<div id="journalSaved" class="result"></div>
-
-</div>
-
-</div>
+<!-- NAV -->
+<div class='navbar'>
+<div id='npairs' class='nav-item sel' onclick="show('pairs')">🏷️</div>
+<div id='nhome' class='nav-item' onclick="show('home')">🏠</div>
+<div id='npos' class='nav-item' onclick="show('position')">📏</div>
+<div id='nrr' class='nav-item' onclick="show('rr')">📊</div>
+<div id='njournal' class='nav-item' onclick="show('journal')">📝</div>
+<div id='nsettings' class='nav-item' onclick="show('settings')">⚙️</div>
 </div>
 
 <script>
+let pairs=[
+"EURUSD","GBPUSD","USDJPY","AUDUSD","NZDUSD","USDCHF","USDCAD",
+"EURJPY","GBPJPY","AUDJPY","CADJPY","NZDJPY","CHFJPY",
+"XAUUSD","XAGUSD","BTCUSD","ETHUSD",
+"US30","NAS100","SPX500"
+];
 
-/* =========================================================
-   PIP TABLE
-========================================================= */
-const pipValues={
- EURUSD:10,GBPUSD:10,AUDUSD:10,NZDUSD:10,USDJPY:9.1,USDCHF:10,
- USDCAD:10,EURGBP:10,EURJPY:9.1,GBPJPY:9.1,AUDJPY:9.1,CHFJPY:9.1,
- EURAUD:10,EURNZD:10,XAUUSD:1,XAGUSD:0.5,BTCUSD:0.1,ETHUSD:0.1,
- US30:1,NAS100:1,SPX500:1,GER40:1,UK100:1,JP225:1
-};
+let pipValue = 10;
+let currentPair="EURUSD";
 
-pipValue.value = pipValues[pair.value];
-pair.addEventListener("change", () => pipValue.value = pipValues[pair.value]);
-
-/* =========================================================
-   SIDEBAR HANDLING
-========================================================= */
-function toggleMenu(){
- document.getElementById("sidebar").classList.toggle("active");
-}
-
-function showSection(id){
- document.querySelectorAll(".section").forEach(s=>s.style.display="none");
- document.getElementById(id).style.display="block";
- document.getElementById("sectionTitle").innerText =
-   document.querySelector(`#${id} h3, #${id} label`).innerText || "JR Tools";
- toggleMenu();
-}
-
-/* =========================================================
-   THEME TOGGLE (bulletproof)
-========================================================= */
-function toggleTheme(){
- let t = document.body.getAttribute("data-theme");
- if(!t) t="dark";
- document.body.setAttribute("data-theme", t==="dark" ? "light" : "dark");
-}
-
-/* =========================================================
-   AUTO-SAVE (localStorage)
-========================================================= */
-function saveSettings(){
- localStorage.setItem("jr_pair", pair.value);
- localStorage.setItem("jr_balance", balance.value);
- localStorage.setItem("jr_risk", riskSlider.value);
- localStorage.setItem("jr_sl", sl.value);
- localStorage.setItem("jr_rr_entry", rrEntry.value);
- localStorage.setItem("jr_rr_sl", rrSL.value);
- localStorage.setItem("jr_rr_tp", rrTP.value);
-}
-function loadSettings(){
- if(localStorage.getItem("jr_pair")) pair.value = localStorage.getItem("jr_pair");
- if(localStorage.getItem("jr_balance")) balance.value = localStorage.getItem("jr_balance");
- if(localStorage.getItem("jr_risk")) riskSlider.value = localStorage.getItem("jr_risk");
- if(localStorage.getItem("jr_sl")) sl.value = localStorage.getItem("jr_sl");
- if(localStorage.getItem("jr_rr_entry")) rrEntry.value = localStorage.getItem("jr_rr_entry");
- if(localStorage.getItem("jr_rr_sl")) rrSL.value = localStorage.getItem("jr_rr_sl");
- if(localStorage.getItem("jr_rr_tp")) rrTP.value = localStorage.getItem("jr_rr_tp");
- riskValue.innerHTML = riskSlider.value + "%";
-}
-
-loadSettings();
-
-document.querySelectorAll("input, select").forEach(el=>{
- el.addEventListener("input", saveSettings);
+let list=document.getElementById('pairList');
+pairs.forEach(p=>{
+ let d=document.createElement('div');
+ d.textContent=p;
+ d.onclick=()=>selectPair(p);
+ list.appendChild(d);
 });
 
-/* =========================================================
-   RISK SLIDER UI
-========================================================= */
-riskSlider.addEventListener("input",()=>{
- let v=parseFloat(riskSlider.value);
- riskValue.innerHTML=v+"%";
- riskFill.style.width=(v*20)+"%";
-});
-
-/* =========================================================
-   PROFIT CALC
-========================================================= */
-function calculateProfit(){
- let p=parseFloat(pips.value),
-     l=parseFloat(lot.value);
- if(!p||!l)return profitResult.innerHTML="Enter valid inputs";
- let result=p*l*pipValues[pair.value];
- profitResult.innerHTML=`<div class='big-output'>Profit: $${result.toFixed(2)}</div>`;
+function filterPairs(){
+ let q=document.getElementById('search').value.toLowerCase();
+ document.querySelectorAll('#pairList div').forEach(d=>{
+   d.style.display = d.textContent.toLowerCase().includes(q) ? 'block':'none';
+ });
 }
 
-/* =========================================================
-   POSITION SIZE
-========================================================= */
-function positionSize(){
- let bal=parseFloat(balance.value),
-     risk=parseFloat(riskSlider.value),
-     slv=parseFloat(sl.value);
-
- if(!bal||!risk||!slv)return posResult.innerHTML="Enter valid inputs";
-
- let pipV=pipValues[pair.value];
- let riskAmt=bal*(risk/100);
- let lots=riskAmt/(slv*pipV);
-
- posResult.innerHTML=` 
- <div><b>Pair:</b> ${pair.value}</div>
- <div><b>Risk Amount:</b> $${riskAmt.toFixed(2)}</div>
- <div><b>Stop Loss:</b> ${slv} pips</div>
- <div><b>Pip Value:</b> $${pipV}</div>
- <hr>
- <div class='big-output'>Lot Size: ${lots.toFixed(2)} lots</div>
- <button class='copy-btn' onclick="copyPositionResult()">Copy</button>`;
+function selectPair(p){
+ currentPair=p;
+ show('home');
 }
 
-/* =========================================================
-   COPY TO CLIPBOARD
-========================================================= */
-function copyPositionResult(){
- navigator.clipboard.writeText(posResult.innerText);
- alert("Copied!");
+function show(id){
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('sel'));
+ document.getElementById('n'+id).classList.add('sel');
 }
 
-/* =========================================================
-   TICK → PIP
-========================================================= */
-function convertTicks(){
- let t=parseFloat(ticks.value);
- if(!t)return tickResult.innerHTML="Enter valid input";
- tickResult.innerHTML=`<div class='big-output'>${t/10} pips</div>`;
+function calcProfit(){
+ let p=pips.value;
+ let l=lot.value;
+ profitResult.innerHTML="Profit: $"+(p*l*pipValue).toFixed(2);
 }
 
-/* =========================================================
-   RISK–REWARD (TradingView Style)
-========================================================= */
+function calcPos(){
+ let bal=parseFloat(balance.value);
+ let r=parseFloat(risk.value)/100;
+ let slv=parseFloat(sl.value);
+ let riskAmt = bal*r;
+ let lot = riskAmt/(slv*pipValue);
+ posResult.innerHTML="Lot Size: "+lot.toFixed(2);
+}
+
 function calcRR(){
- let e=parseFloat(rrEntry.value),
-     s=parseFloat(rrSL.value),
-     t=parseFloat(rrTP.value);
-
- if(!e||!s||!t)return rrResult.innerHTML="Enter valid inputs";
-
+ let e=parseFloat(entry.value);
+ let s=parseFloat(slp.value);
+ let t=parseFloat(tp.value);
  let risk=Math.abs(e-s);
  let reward=Math.abs(t-e);
- let rr=reward/risk;
-
- rrResult.innerHTML=`
- <div><b>Risk (pips):</b> ${risk.toFixed(5)}</div>
- <div><b>Reward (pips):</b> ${reward.toFixed(5)}</div>
- <hr>
- <div><b>R:R Ratio:</b> ${rr.toFixed(2)}</div>
- <div><b>Expected Loss (1 lot):</b> $${(risk*pipValues[pair.value]).toFixed(2)}</div>
- <div><b>Expected Profit (1 lot):</b> $${(reward*pipValues[pair.value]).toFixed(2)}</div>
- <div class='big-output'>R:R = ${rr.toFixed(2)}</div>
- `;
+ rrResult.innerHTML="RR Ratio: "+(reward/risk).toFixed(2);
 }
 
-/* =========================================================
-   JOURNAL + CSV EXPORT
-========================================================= */
+function convTick(){
+ tickResult.innerHTML = (ticks.value/10)+" pips";
+}
+
 let journal=[];
-
 function saveTrade(){
- let rrVal=(
-   Math.abs(rrTP.value-rrEntry.value)/
-   Math.abs(rrEntry.value-rrSL.value)
- ).toFixed(2);
-
- let lots="N/A";
- let lotOutput=document.querySelector("#posResult .big-output");
- if(lotOutput) lots=lotOutput.innerText;
-
- journal.push({
-   pair:pair.value,
-   entry:rrEntry.value,
-   sl:rrSL.value,
-   tp:rrTP.value,
-   rr:rrVal,
-   lots:lots,
-   time:new Date().toLocaleString()
- });
-
- journalSaved.innerHTML="Trade saved!";
+ journal.push({pair:currentPair,time:new Date().toLocaleString()});
+ journalMsg.innerHTML="Saved!";
 }
-
 function exportJournal(){
- if(journal.length===0)return alert("No trades saved!");
-
- let csv="Pair,Entry,SL,TP,RR,Lots,Time\n";
- journal.forEach(t=>{
-   csv+=`${t.pair},${t.entry},${t.sl},${t.tp},${t.rr},${t.lots},${t.time}\n`;
- });
-
- let blob=new Blob([csv],{type:"text/csv"});
- let url=URL.createObjectURL(blob);
- let a=document.createElement("a");
- a.href=url;
- a.download="trade_journal.csv";
+ let csv="Pair,Time\n";
+ journal.forEach(t=>csv+=t.pair+","+t.time+"\n");
+ let blob=new Blob([csv]);
+ let a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download="journal.csv";
  a.click();
 }
 
+function toggleTheme(){
+ document.body.classList.toggle('light');
+}
 </script>
 
 </body>
