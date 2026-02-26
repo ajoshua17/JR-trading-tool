@@ -162,6 +162,7 @@ button:hover {
     margin-top: 16px;
     border: 1px solid var(--border);
 }
+/* Big output (dark mode) */
 .big-output {
     font-size: 24px;
     font-weight: bold;
@@ -169,6 +170,11 @@ button:hover {
     text-shadow: 0 0 10px rgba(0,255,255,0.8);
 }
 
+/* Light mode fix */
+body[data-theme="light"] .big-output {
+    color: #004c4c !important;           /* Dark teal text */
+    text-shadow: none !important;        /* Remove neon glow */
+}
 /* ================================================
    RISK SLIDER
 ================================================ */
