@@ -266,17 +266,23 @@ function positionSize() {
     let bal = parseFloat(document.getElementById("balance").value);
     let risk = parseFloat(document.getElementById("risk").value);
     let sl = parseFloat(document.getElementById("sl").value);
+    let pair = document.getElementById("pair").value;
+
+    let pipValuePerLot = pipValues[pair] || 10;
 
     if (isNaN(bal) || isNaN(risk) || isNaN(sl)) {
         document.getElementById("posResult").innerText = "Enter valid numbers.";
         return;
     }
 
+    // Risk amount in dollars
     let riskAmount = bal * (risk / 100);
-    let pipValue = riskAmount / sl;
+
+    // LOT SIZE FORMULA
+    let lotSize = riskAmount / (sl * pipValuePerLot);
 
     document.getElementById("posResult").innerText =
-        "Pip Value Needed: $" + pipValue.toFixed(2);
+        "Lot Size: " + lotSize.toFixed(2) + " lots";
 }
 
 /* TICK → PIP */
@@ -302,3 +308,4 @@ function toggleTheme() {
 
 </body>
 </html>
+
