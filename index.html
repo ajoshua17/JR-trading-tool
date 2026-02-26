@@ -9,7 +9,7 @@
 <style>
 
 /* =============================================
-   THEME VARIABLES
+   THEME VARIABLES (Default Dark Mode)
 ============================================= */
 :root {
     --bg: #0f0f0f;
@@ -19,26 +19,28 @@
     --glow: rgba(0,255,255,0.20);
 }
 
-/* LIGHT THEME MANUAL */
+/* LIGHT MODE MANUAL */
 body[data-theme="light"] {
-    --bg: #f6faff;
-    --text: #002f33;
+    --bg: #f5faff;
+    --text: #003033;
     --card: rgba(255,255,255,0.65);
-    --border: rgba(0,0,0,0.18);
+    --border: rgba(0,0,0,0.15);
+    --glow: rgba(0,0,0,0.10);
 }
 
-/* AUTO LIGHT MODE IF USER HAS NOT TOGGLED */
+/* AUTO SYSTEM LIGHT MODE */
 @media (prefers-color-scheme: light) {
     body:not([data-theme]) {
-        --bg: #f6faff;
+        --bg: #f5faff;
         --text: #003033;
         --card: rgba(255,255,255,0.65);
-        --border: rgba(0,0,0,0.18);
+        --border: rgba(0,0,0,0.15);
+        --glow: rgba(0,0,0,0.10);
     }
 }
 
 /* =============================================
-   BODY + SAFE AREA FIXES
+   GLOBAL BODY
 ============================================= */
 body {
     margin: 0;
@@ -50,14 +52,13 @@ body {
 }
 
 /* =============================================
-   MAIN CARD (FULL LAYOUT)
+   MAIN CARD (RESPONSIVE)
 ============================================= */
 .card {
     width: 100%;
     max-width: 520px;
     margin: auto;
     padding: 25px;
-    box-sizing: border-box;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 20px;
@@ -65,9 +66,9 @@ body {
     box-shadow: 0 8px 30px var(--glow);
 }
 
+/* HEADINGS */
 h2, h3 {
     text-align: center;
-    font-weight: bold;
     margin-bottom: 12px;
 }
 
@@ -92,15 +93,16 @@ input, select {
 button {
     width: 100%;
     padding: 14px;
+    margin-top: 14px;
     border-radius: 12px;
     background: #00f5ff;
-    border: none;
-    color: black;
+    color: #003033;
     font-weight: bold;
-    margin-top: 12px;
     cursor: pointer;
-    transition: 0.25s;
+    border: none;
+    transition: 0.3s;
 }
+
 button:hover {
     opacity: 0.85;
 }
@@ -109,66 +111,68 @@ button:hover {
    RESULT BOX
 ============================================= */
 .result {
-    padding: 16px;
-    margin-top: 15px;
-    border-radius: 14px;
+    margin-top: 16px;
+    padding: 18px;
+    border-radius: 12px;
     background: rgba(255,255,255,0.06);
     border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
 }
 
 .big-output {
     font-size: 22px;
     font-weight: bold;
     margin-top: 12px;
+    color: #aaffff;
 }
 
 .output-label {
+    font-size: 15px;
     opacity: 0.85;
-    font-size: 14px;
 }
 
 .output-line {
-    border-top: 1px solid rgba(255,255,255,0.28);
+    border-top: 1px solid rgba(255,255,255,0.25);
     margin: 12px 0;
 }
 
-/* Copy Button */
+/* COPY BUTTON */
 .copy-btn {
-    width: 100%;
     padding: 10px;
-    border-radius: 10px;
-    margin-top: 10px;
     background: #00f5ff;
     color: #000;
+    border-radius: 10px;
+    margin-top: 12px;
     font-weight: bold;
     cursor: pointer;
 }
 
 /* =============================================
-   RISK SLIDER UI
+   RISK UI SLIDER + METER
 ============================================= */
 .risk-bar {
     width: 100%;
     height: 10px;
-    border-radius: 10px;
     background: rgba(255,255,255,0.15);
-    overflow: hidden;
+    border-radius: 10px;
     margin-top: 10px;
+    overflow: hidden;
 }
 
 .risk-fill {
     height: 100%;
     width: 0%;
-    background: #00ff9d;
+    border-radius: 10px;
     transition: 0.3s ease;
 }
 
 .risk-label {
     margin-top: 8px;
     font-size: 14px;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
+/* Slider */
 input[type="range"] {
     width: 100%;
     margin-top: 10px;
@@ -194,8 +198,6 @@ input[type="range"]::-webkit-slider-runnable-track {
 </style>
 </head>
 
-
-
 <body>
 
 <div class="card">
@@ -204,20 +206,17 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <button onclick="toggleTheme()">Toggle Theme (Optional)</button>
 
-<!-- ==========================
-     PAIR SELECTION
-========================== -->
 <label>Select Pair</label>
 <select id="pair">
-<option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
-<option>NZDUSD</option><option>USDJPY</option><option>USDCHF</option>
-<option>USDCAD</option><option>EURGBP</option><option>EURJPY</option>
-<option>GBPJPY</option><option>AUDJPY</option><option>CHFJPY</option>
-<option>EURAUD</option><option>EURNZD</option>
-<option>XAUUSD</option><option>XAGUSD</option>
-<option>BTCUSD</option><option>ETHUSD</option>
-<option>US30</option><option>NAS100</option><option>SPX500</option>
-<option>GER40</option><option>UK100</option><option>JP225</option>
+    <option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
+    <option>NZDUSD</option><option>USDJPY</option><option>USDCHF</option>
+    <option>USDCAD</option><option>EURGBP</option><option>EURJPY</option>
+    <option>GBPJPY</option><option>AUDJPY</option><option>CHFJPY</option>
+    <option>EURAUD</option><option>EURNZD</option>
+    <option>XAUUSD</option><option>XAGUSD</option>
+    <option>BTCUSD</option><option>ETHUSD</option>
+    <option>US30</option><option>NAS100</option><option>SPX500</option>
+    <option>GER40</option><option>UK100</option><option>JP225</option>
 </select>
 
 <label>Pips / Points</label>
@@ -234,17 +233,13 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <hr class="output-line">
 
-<!-- ==========================
-     POSITION SIZE SECTION
-========================== -->
 <h3>Position Size Calculator</h3>
 
 <label>Account Balance ($)</label>
 <input type="number" id="balance">
 
 <label>Risk %</label>
-<input type="range" id="riskSlider" min="0.1" max="5" value="1" step="0.1">
-
+<input type="range" id="riskSlider" min="0.1" max="5" step="0.1" value="1">
 <div id="riskValue">1%</div>
 
 <div class="risk-bar">
@@ -260,9 +255,154 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 <hr class="output-line">
 
-<!-- ==========================
-     TICK TO PIP
-========================== -->
 <h3>Tick → Pip Converter</h3>
 <label>Ticks</label>
 <input type="number" id="ticks">
+
+<button onclick="convertTicks()">Convert</button>
+<div id="tickResult" class="result"></div>
+
+</div>
+
+<script>
+
+/* =====================================================================================
+   AUTO PIP VALUE TABLE
+===================================================================================== */
+const pipValues = {
+    EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
+    USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
+    EURAUD:10, EURNZD:10, XAUUSD:1, XAGUSD:0.5, BTCUSD:0.1, ETHUSD:0.1,
+    US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
+};
+
+document.getElementById("pipValue").value = pipValues["EURUSD"];
+
+document.getElementById("pair").addEventListener("change", function () {
+    document.getElementById("pipValue").value = pipValues[this.value];
+});
+
+
+/* =====================================================================================
+   AUTO + MANUAL THEME
+===================================================================================== */
+let manualTheme = false;
+
+function toggleTheme() {
+    manualTheme = true;
+    let now = document.body.getAttribute("data-theme");
+    document.body.setAttribute("data-theme", now === "light" ? "dark" : "light");
+}
+
+
+/* =====================================================================================
+   RISK SLIDER UI
+===================================================================================== */
+const riskSlider = document.getElementById('riskSlider');
+const riskValue  = document.getElementById('riskValue');
+const riskFill   = document.getElementById('riskFill');
+const riskLabel  = document.getElementById('riskLabel');
+
+riskSlider.addEventListener('input', function() {
+    let val = parseFloat(this.value);
+    riskValue.innerHTML = val + "%";
+
+    riskFill.style.width = (val * 20) + "%";
+
+    if (val <= 1) {
+        riskFill.style.background = "#00ff9d";
+        riskLabel.innerHTML = "Safe Risk";
+    } else if (val <= 2) {
+        riskFill.style.background = "#faff00";
+        riskLabel.innerHTML = "Moderate Risk";
+    } else if (val <= 3) {
+        riskFill.style.background = "#ffa600";
+        riskLabel.innerHTML = "High Risk";
+    } else {
+        riskFill.style.background = "#ff0033";
+        riskLabel.innerHTML = "Very High Risk";
+    }
+});
+
+
+/* =====================================================================================
+   PROFIT CALCULATOR
+===================================================================================== */
+function calculateProfit() {
+    let pips = parseFloat(document.getElementById("pips").value);
+    let lot = parseFloat(document.getElementById("lot").value);
+    let pair = document.getElementById("pair").value;
+
+    if (!pips || !lot) {
+        document.getElementById("profitResult").innerHTML = "Enter valid values.";
+        return;
+    }
+
+    let profit = pips * lot * pipValues[pair];
+
+    document.getElementById("profitResult").innerHTML =
+        `<div class="big-output">Profit: $${profit.toFixed(2)}</div>`;
+}
+
+
+/* =====================================================================================
+   POSITION SIZE CALCULATOR
+===================================================================================== */
+function positionSize() {
+    let bal = parseFloat(document.getElementById("balance").value);
+    let risk = parseFloat(document.getElementById("riskSlider").value);
+    let sl  = parseFloat(document.getElementById("sl").value);
+    let pair = document.getElementById("pair").value;
+
+    if (!bal || !risk || !sl) {
+        document.getElementById("posResult").innerHTML = "Enter valid numbers.";
+        return;
+    }
+
+    let pipValue = pipValues[pair];
+    let riskAmount = bal * (risk / 100);
+    let lots = riskAmount / (sl * pipValue);
+
+    let html = `
+        <div><span class='output-label'>Pair:</span> ${pair}</div>
+        <div><span class='output-label'>Risk Amount:</span> $${riskAmount.toFixed(2)}</div>
+        <div><span class='output-label'>Stop Loss:</span> ${sl} pips</div>
+        <div><span class='output-label'>Pip Value Used:</span> $${pipValue}</div>
+
+        <div class="output-line"></div>
+
+        <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
+
+        <button class="copy-btn" onclick="copyPositionResult()">Copy</button>
+    `;
+
+    document.getElementById("posResult").innerHTML = html;
+}
+
+
+/* COPY RESULT */
+function copyPositionResult() {
+    let text = document.getElementById("posResult").innerText;
+    navigator.clipboard.writeText(text);
+    alert("Copied!");
+}
+
+
+/* =====================================================================================
+   TICK → PIP CONVERTER
+===================================================================================== */
+function convertTicks() {
+    let ticks = parseFloat(document.getElementById("ticks").value);
+    if (!ticks) {
+        document.getElementById("tickResult").innerHTML = "Enter valid input.";
+        return;
+    }
+
+    document.getElementById("tickResult").innerHTML =
+        `<div class="big-output">${ticks / 10} pips</div>`;
+}
+
+</script>
+
+</body>
+</html>
