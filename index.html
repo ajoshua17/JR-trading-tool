@@ -8,7 +8,7 @@
 <style>
 
 /* ================================================
-   BASE THEME (Optimized for Android)
+   BASE THEME
 ================================================ */
 :root {
     --bg: #02070a;
@@ -26,7 +26,7 @@ body[data-theme="light"] {
 }
 
 /* ================================================
-   BACKGROUND
+   BASE STYLES + SMOOTH TRANSITION
 ================================================ */
 body {
     margin: 0;
@@ -35,8 +35,10 @@ body {
     color: var(--text);
     font-family: Arial, sans-serif;
     overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* Background Grid */
 body::before {
     content: "";
     position: fixed;
@@ -47,6 +49,7 @@ body::before {
     z-index: -9999;
 }
 
+/* Floating neon particles */
 body::after {
     content: "";
     position: fixed;
@@ -59,9 +62,9 @@ body::after {
     z-index: -9999;
 }
 @keyframes particles {
-    0% { transform: translate(0, 0); }
-    50% { transform: translate(20px, -30px); }
-    100% { transform: translate(0, 0); }
+    0% { transform: translate(0,0); }
+    50% { transform: translate(20px,-30px); }
+    100% { transform: translate(0,0); }
 }
 
 /* ================================================
@@ -82,27 +85,27 @@ body::after {
     position: relative;
 }
 
+/* Neon animated border */
 .card::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: 22px;
     padding: 2px;
-    background: linear-gradient(135deg, #00eaff, #00bfff, #00f5ff);
+    background: linear-gradient(135deg,#00eaff,#00bfff,#00f5ff);
     background-size: 200% 200%;
-    animation: borderAnim 6s linear infinite;
-    opacity: 0.7;
-
+    animation: borderMove 6s linear infinite;
+    opacity: .7;
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
 }
-@keyframes borderAnim {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+@keyframes borderMove {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
 }
 
 /* ================================================
@@ -118,25 +121,26 @@ input, select {
     color: var(--text);
     font-size: 17px;
     position: relative;
-    z-index: 9999;
+    z-index: 999;
 }
 
-/* 🔥 DARK MODE DROPDOWN FIX */
+/* DARK MODE dropdown fix */
 select,
 select option {
-    background-color: #001618 !important;
+    background: #001618 !important;
     color: #afffff !important;
     color-scheme: dark !important;
 }
 
-/* ☀️ LIGHT MODE DROPDOWN FIX */
+/* LIGHT MODE dropdown fix */
 body[data-theme="light"] select,
 body[data-theme="light"] select option {
-    background-color: #ffffff !important;
+    background: #ffffff !important;
     color: #003033 !important;
     color-scheme: light !important;
 }
 
+/* Focus Glow */
 input:focus, select:focus {
     border-color: #00f5ff;
     box-shadow: 0 0 12px rgba(0,255,255,0.6);
@@ -148,16 +152,16 @@ input:focus, select:focus {
 button {
     width: 100%;
     padding: 16px;
-    margin-top: 16px;
     border-radius: 14px;
     border: none;
-    background: linear-gradient(135deg, #00f5ff, #00bfff);
+    background: linear-gradient(135deg,#00f5ff,#00bfff);
     color: #003033;
     font-weight: bold;
-    cursor: pointer;
     font-size: 16px;
-    box-shadow: 0 0 14px rgba(0,255,255,0.5);
-    z-index: 9999;
+    margin-top: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,255,255,0.5);
+    z-index: 999;
 }
 button:hover {
     box-shadow: 0 0 22px rgba(0,255,255,1);
@@ -182,7 +186,7 @@ button:hover {
     text-shadow: 0 0 10px rgba(0,255,255,0.8);
 }
 
-/* Light mode readable fix */
+/* Light theme fix */
 body[data-theme="light"] .big-output {
     color: #004c4c !important;
     text-shadow: none !important;
@@ -201,32 +205,34 @@ body[data-theme="light"] .big-output {
     width: 0%;
     height: 10px;
     border-radius: 10px;
-    transition: 0.3s;
+    transition:.3s;
 }
-
 input[type="range"]::-webkit-slider-thumb {
-    width: 25px;
-    height: 25px;
-    background: #00f5ff;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0,255,255,0.8);
-    -webkit-appearance: none;
+    width:25px;
+    height:25px;
+    background:#00f5ff;
+    border-radius:50%;
+    box-shadow:0 0 15px rgba(0,255,255,.8);
+    -webkit-appearance:none;
 }
 
+/* Copy button */
 .copy-btn {
-    margin-top: 12px;
-    padding: 12px;
-    background: #00f5ff;
-    color: #003033;
-    border-radius: 12px;
-    font-weight: bold;
-    cursor: pointer;
+    margin-top:12px;
+    padding:12px;
+    width:100%;
+    background:#00f5ff;
+    color:#003033;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 </style>
 </head>
 
-<body>
+<!-- ⭐ DEFAULT THEME FIX → DARK MODE -->
+<body data-theme="dark">
 
 <div class="card-wrapper">
 <div class="card">
@@ -283,7 +289,6 @@ input[type="range"]::-webkit-slider-thumb {
 <hr>
 
 <h3>Tick → Pip Converter</h3>
-
 <label>Ticks</label>
 <input type="number" id="ticks">
 
@@ -293,97 +298,76 @@ input[type="range"]::-webkit-slider-thumb {
 </div>
 </div>
 
+
 <script>
 
 /* PIP TABLE */
-const pipValues = {
- EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
- USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
- EURAUD:10, EURNZD:10, XAUUSD:1, XAGUSD:0.5, BTCUSD:0.1, ETHUSD:0.1,
- US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
+const pipValues={
+ EURUSD:10,GBPUSD:10,AUDUSD:10,NZDUSD:10,USDJPY:9.1,USDCHF:10,
+ USDCAD:10,EURGBP:10,EURJPY:9.1,GBPJPY:9.1,AUDJPY:9.1,CHFJPY:9.1,
+ EURAUD:10,EURNZD:10,XAUUSD:1,XAGUSD:0.5,BTCUSD:0.1,ETHUSD:0.1,
+ US30:1,NAS100:1,SPX500:1,GER40:1,UK100:1,JP225:1
 };
 
+/* AUTO-UPDATE pip value */
 pipValue.value = pipValues[pair.value];
-pair.addEventListener("change", () => {
-    pipValue.value = pipValues[pair.value];
-});
+pair.addEventListener("change",()=>pipValue.value=pipValues[pair.value]);
 
-function toggleTheme() {
-    let t = document.body.getAttribute("data-theme");
-    document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
+/* ⭐ FIXED Theme Toggle */
+function toggleTheme(){
+ let t=document.body.getAttribute("data-theme");
+ document.body.setAttribute("data-theme", t==="light" ? "dark" : "light");
 }
 
 /* RISK SLIDER */
-riskSlider.addEventListener("input", () => {
-    let v = parseFloat(riskSlider.value);
-    riskValue.innerHTML = v + "%";
-    riskFill.style.width = (v * 20) + "%";
-
-    if (v <= 1) {
-        riskFill.style.background = "#00ff9d";
-        riskLabel.innerHTML = "Safe Risk";
-    } else if (v <= 2) {
-        riskFill.style.background = "#faff00";
-        riskLabel.innerHTML = "Moderate Risk";
-    } else if (v <= 3) {
-        riskFill.style.background = "#ffa600";
-        riskLabel.innerHTML = "High Risk";
-    } else {
-        riskFill.style.background = "#ff0033";
-        riskLabel.innerHTML = "Very High Risk";
-    }
+riskSlider.addEventListener("input",()=>{
+ let v=parseFloat(riskSlider.value);
+ riskValue.innerHTML=v+"%";
+ riskFill.style.width=(v*20)+"%";
+ if(v<=1){riskFill.style.background="#00ff9d";riskLabel.innerHTML="Safe Risk";}
+ else if(v<=2){riskFill.style.background="#faff00";riskLabel.innerHTML="Moderate Risk";}
+ else if(v<=3){riskFill.style.background="#ffa600";riskLabel.innerHTML="High Risk";}
+ else {riskFill.style.background="#ff0033";riskLabel.innerHTML="Very High Risk";}
 });
 
 /* PROFIT */
-function calculateProfit() {
-    let p = parseFloat(pips.value);
-    let l = parseFloat(lot.value);
-    if (!p || !l) {
-        profitResult.innerHTML = "Enter valid inputs";
-        return;
-    }
-    profitResult.innerHTML = `<div class="big-output">Profit: $${(p * l * pipValues[pair.value]).toFixed(2)}</div>`;
+function calculateProfit(){
+ let p=parseFloat(pips.value);
+ let l=parseFloat(lot.value);
+ if(!p||!l)return profitResult.innerHTML="Enter valid inputs";
+ profitResult.innerHTML=`<div class="big-output">Profit: $${(p*l*pipValues[pair.value]).toFixed(2)}</div>`;
 }
 
-/* POSITION SIZE FIXED */
-function positionSize() {
-    let bal = parseFloat(balance.value);
-    let risk = parseFloat(riskSlider.value);
-    let slv = parseFloat(sl.value);
-
-    if (!bal || !risk || !slv) {
-        posResult.innerHTML = "Enter valid inputs";
-        return;
-    }
-
-    let pipV = pipValues[pair.value];
-    let riskAmt = bal * (risk / 100);
-    let lots = riskAmt / (slv * pipV);
-
-    posResult.innerHTML = `
-        <div><b>Pair:</b> ${pair.value}</div>
-        <div><b>Risk Amount:</b> $${riskAmt.toFixed(2)}</div>
-        <div><b>Stop Loss:</b> ${slv} pips</div>
-        <div><b>Pip Value Used:</b> $${pipV}</div>
-        <hr>
-        <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
-        <button class="copy-btn" onclick="copyPositionResult()">Copy</button>
-    `;
+/* POSITION SIZE (FIXED) */
+function positionSize(){
+ let bal=parseFloat(balance.value);
+ let risk=parseFloat(riskSlider.value);
+ let slv=parseFloat(sl.value);
+ if(!bal||!risk||!slv)return posResult.innerHTML="Enter valid inputs";
+ let pipV=pipValues[pair.value];
+ let riskAmt=bal*(risk/100);
+ let lots=riskAmt/(slv*pipV);
+ posResult.innerHTML=`
+ <div><b>Pair:</b> ${pair.value}</div>
+ <div><b>Risk Amount:</b> $${riskAmt.toFixed(2)}</div>
+ <div><b>Stop Loss:</b> ${slv} pips</div>
+ <div><b>Pip Value:</b> $${pipV}</div>
+ <hr>
+ <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
+ <button class="copy-btn" onclick="copyPositionResult()">Copy</button>
+ `;
 }
 
-function copyPositionResult() {
-    navigator.clipboard.writeText(posResult.innerText);
-    alert("Copied!");
+function copyPositionResult(){
+ navigator.clipboard.writeText(posResult.innerText);
+ alert("Copied!");
 }
 
 /* TICKS */
-function convertTicks() {
-    let t = parseFloat(ticks.value);
-    if (!t) {
-        tickResult.innerHTML = "Enter valid input";
-        return;
-    }
-    tickResult.innerHTML = `<div class="big-output">${t/10} pips</div>`;
+function convertTicks(){
+ let t=parseFloat(ticks.value);
+ if(!t)return tickResult.innerHTML="Enter valid input";
+ tickResult.innerHTML=`<div class="big-output">${t/10} pips</div>`;
 }
 
 </script>
