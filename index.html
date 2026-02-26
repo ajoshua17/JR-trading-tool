@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>JR Trading Calculator Pro</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ajoshua17/JR-trading-tool/c075e2d8494237a134cffff37b8211a60025b0a9/JR%20Forex%20Trading%20Gold%20Logo.png">
+
+<!-- iPhone Home Screen Icon -->
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ajoshua17/JR-trading-tool/c075e2d8494237a134cffff37b8211a60025b0a9/JR%20Forex%20Trading%20Gold%20Logo.png">
 
 <style>
     :root {
@@ -12,46 +20,57 @@
         --border: #00ffff;
         --glow: 0 0 15px #00ffff;
     }
-    [data-theme="light"] {
-        --bg: #f2f2f2;
-        --text: #006666;
-        --card: #ffffff;
-        --border: #00cccc;
-        --glow: 0 0 0;
-    }
 
     body {
         background: var(--bg);
         font-family: Arial, sans-serif;
         padding: 20px;
+        margin: 0;
         color: var(--text);
-        transition: 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Logo */
+    .logo-box {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .logo-box img {
+        height: 80px;
+        width: auto;
+        filter: drop-shadow(0 0 10px gold);
     }
 
     .box {
+        width: 100%;
         max-width: 480px;
-        margin: auto;
         background: var(--card);
         padding: 20px;
         border-radius: 15px;
         border: 1px solid var(--border);
         box-shadow: var(--glow);
-        transition: 0.3s ease;
     }
+
     h2, h3 {
         text-align: center;
         color: var(--text);
         text-shadow: var(--glow);
+        margin-top: 5px;
     }
+
     label {
         display: block;
         margin-top: 10px;
         font-size: 14px;
-        color: var(--text);
     }
+
     input, select {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         margin: 8px 0;
         background: #111;
         border: 1px solid var(--border);
@@ -59,13 +78,6 @@
         color: var(--text);
         font-size: 16px;
         box-shadow: inset var(--glow);
-        transition: 0.3s ease;
-    }
-    [data-theme="light"] input, [data-theme="light"] select {
-        background: #fff;
-        color: #000;
-        border: 1px solid #009999;
-        box-shadow: none;
     }
 
     button {
@@ -80,10 +92,6 @@
         cursor: pointer;
         margin-top: 15px;
         box-shadow: var(--glow);
-        transition: 0.3s ease;
-    }
-    button:hover {
-        background: #00cccc;
     }
 
     .result {
@@ -104,13 +112,15 @@
 </style>
 </head>
 
-<body data-theme="dark">
+<body>
 
-<div class="theme-toggle">
-    <button onclick="toggleTheme()">Toggle Dark/Light</button>
+<!-- LOGO -->
+<div class="logo-box">
+    <img src="https://raw.githubusercontent.com/ajoshua17/JR-trading-tool/c075e2d8494237a134cffff37b8211a60025b0a9/JR%20Forex%20Trading%20Gold%20Logo.png">
 </div>
 
 <div class="box">
+
     <h2>JR Trading Calculator Pro</h2>
 
     <!-- PAIR SELECTION -->
@@ -198,57 +208,40 @@
 
     <button onclick="convertTicks()">Convert</button>
     <div id="tickOut" class="result"></div>
+
 </div>
 
 <script>
 
-/* THEME */
-function toggleTheme() {
-    document.body.dataset.theme =
-        document.body.dataset.theme === "dark" ? "light" : "dark";
-}
-
-/* PIP VALUE LOGIC */
 function updatePipValue() {
     let pair = document.getElementById("pair").value;
     let pipBox = document.getElementById("pipValue");
 
-    let pip = 10; // default
+    let pip = 10; // Default
 
     if (pair.includes("JPY")) pip = 9.1;
-
     if (pair === "XAUUSD") pip = 1;
     if (pair === "XAGUSD") pip = 0.5;
-
     if (pair === "NAS100" || pair === "US30" || pair === "SPX500") pip = 1;
-
     if (pair === "BTCUSD") pip = 0.1;
     if (pair === "ETHUSD") pip = 0.05;
 
     pipBox.value = pip;
 }
 
-/* PROFIT */
 function calcProfit() {
-    let profit =
-        parseFloat(pips.value) *
-        parseFloat(lot.value) *
-        parseFloat(pipValue.value);
-
+    let profit = parseFloat(pips.value) * parseFloat(lot.value) * parseFloat(pipValue.value);
     profitOut.innerHTML = "Profit: $" + profit.toFixed(2);
 }
 
-/* POSITION SIZE */
 function calcPositionSize() {
     let riskAmount = balance.value * (riskPercent.value / 100);
     let lotSize = riskAmount / (slPips.value * pipValue.value);
     positionOut.innerHTML = "Lot Size: " + lotSize.toFixed(2);
 }
 
-/* TICKS */
 function convertTicks() {
-    tickOut.innerHTML =
-        ticks.value + " ticks = " + (ticks.value / 10) + " pips";
+    tickOut.innerHTML = ticks.value + " ticks = " + (ticks.value / 10) + " pips";
 }
 
 updatePipValue();
