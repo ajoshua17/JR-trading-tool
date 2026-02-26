@@ -26,7 +26,7 @@ body[data-theme="light"] {
 }
 
 /* ================================================
-   BODY BACKGROUND (Optimized)
+   BACKGROUND
 ================================================ */
 body {
     margin: 0;
@@ -37,7 +37,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Soft neon grid (very lightweight) */
 body::before {
     content: "";
     position: fixed;
@@ -48,7 +47,6 @@ body::before {
     z-index: -9999;
 }
 
-/* Light floating particles */
 body::after {
     content: "";
     position: fixed;
@@ -67,7 +65,7 @@ body::after {
 }
 
 /* ================================================
-   CARD + SMOOTH GLOW BORDER
+   CARD
 ================================================ */
 .card-wrapper {
     max-width: 520px;
@@ -80,11 +78,10 @@ body::after {
     padding: 22px;
     background: var(--card);
     border-radius: 22px;
-    position: relative;
     box-shadow: 0 0 20px rgba(0,255,255,0.25);
+    position: relative;
 }
 
-/* Animated border */
 .card::before {
     content: "";
     position: absolute;
@@ -109,7 +106,7 @@ body::after {
 }
 
 /* ================================================
-   INPUTS
+   INPUTS + FIXED DROPDOWN
 ================================================ */
 input, select {
     width: 100%;
@@ -122,6 +119,22 @@ input, select {
     font-size: 17px;
     position: relative;
     z-index: 9999;
+}
+
+/* 🔥 DARK MODE DROPDOWN FIX */
+select,
+select option {
+    background-color: #001618 !important;
+    color: #afffff !important;
+    color-scheme: dark !important;
+}
+
+/* ☀️ LIGHT MODE DROPDOWN FIX */
+body[data-theme="light"] select,
+body[data-theme="light"] select option {
+    background-color: #ffffff !important;
+    color: #003033 !important;
+    color-scheme: light !important;
 }
 
 input:focus, select:focus {
@@ -144,7 +157,6 @@ button {
     cursor: pointer;
     font-size: 16px;
     box-shadow: 0 0 14px rgba(0,255,255,0.5);
-    position: relative;
     z-index: 9999;
 }
 button:hover {
@@ -153,7 +165,7 @@ button:hover {
 }
 
 /* ================================================
-   RESULTS
+   RESULT BOX
 ================================================ */
 .result {
     background: rgba(255,255,255,0.08);
@@ -162,7 +174,7 @@ button:hover {
     margin-top: 16px;
     border: 1px solid var(--border);
 }
-/* Big output (dark mode) */
+
 .big-output {
     font-size: 24px;
     font-weight: bold;
@@ -170,11 +182,12 @@ button:hover {
     text-shadow: 0 0 10px rgba(0,255,255,0.8);
 }
 
-/* Light mode fix */
+/* Light mode readable fix */
 body[data-theme="light"] .big-output {
-    color: #004c4c !important;           /* Dark teal text */
-    text-shadow: none !important;        /* Remove neon glow */
+    color: #004c4c !important;
+    text-shadow: none !important;
 }
+
 /* ================================================
    RISK SLIDER
 ================================================ */
@@ -190,10 +203,7 @@ body[data-theme="light"] .big-output {
     border-radius: 10px;
     transition: 0.3s;
 }
-input[type="range"] {
-    width: 100%;
-    margin-top: 12px;
-}
+
 input[type="range"]::-webkit-slider-thumb {
     width: 25px;
     height: 25px;
@@ -293,13 +303,11 @@ const pipValues = {
  US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
 };
 
-/* Auto Update Pip Value */
 pipValue.value = pipValues[pair.value];
 pair.addEventListener("change", () => {
     pipValue.value = pipValues[pair.value];
 });
 
-/* THEME */
 function toggleTheme() {
     let t = document.body.getAttribute("data-theme");
     document.body.setAttribute("data-theme", t === "light" ? "dark" : "light");
@@ -337,7 +345,7 @@ function calculateProfit() {
     profitResult.innerHTML = `<div class="big-output">Profit: $${(p * l * pipValues[pair.value]).toFixed(2)}</div>`;
 }
 
-/* POSITION SIZE (FIXED) */
+/* POSITION SIZE FIXED */
 function positionSize() {
     let bal = parseFloat(balance.value);
     let risk = parseFloat(riskSlider.value);
@@ -363,7 +371,6 @@ function positionSize() {
     `;
 }
 
-/* COPY */
 function copyPositionResult() {
     navigator.clipboard.writeText(posResult.innerText);
     alert("Copied!");
