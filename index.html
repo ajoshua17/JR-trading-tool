@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>JR Trading Calculator Pro</title>
 
 <style>
@@ -11,227 +11,211 @@
    BASE THEME
 ================================================ */
 :root {
-    --bg: #02070a;
-    --text: #eaffff;
-    --card: rgba(255,255,255,0.10);
-    --border: rgba(0,255,255,0.25);
+  --bg: #02070a;
+  --text: #eaffff;
+  --card: rgba(255,255,255,0.10);
+  --border: rgba(0,255,255,0.25);
 }
 
 /* Light Mode */
 body[data-theme="light"] {
-    --bg: #f5fcff;
-    --text: #003033;
-    --card: rgba(255,255,255,0.65);
-    --border: rgba(0,0,0,0.15);
+  --bg: #f5fcff;
+  --text: #003033;
+  --card: rgba(255,255,255,0.65);
+  --border: rgba(0,0,0,0.15);
 }
 
 /* ================================================
-   BASE STYLES + SMOOTH TRANSITION
+   BODY + TRANSITION
 ================================================ */
 body {
-    margin: 0;
-    padding: 20px;
-    background: var(--bg);
-    color: var(--text);
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-    transition: background 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 20px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background .3s ease, color .3s ease;
 }
 
-/* Background Grid */
+/* Neon Grid */
 body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background:
-        repeating-linear-gradient(90deg, rgba(0,255,255,0.03) 0, rgba(0,255,255,0.03) 1px, transparent 1px, transparent 80px),
-        repeating-linear-gradient(0deg, rgba(0,255,255,0.03) 0, rgba(0,255,255,0.03) 1px, transparent 1px, transparent 80px);
-    z-index: -9999;
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    repeating-linear-gradient(90deg,rgba(0,255,255,0.03)0,rgba(0,255,255,0.03)1px,transparent 1px,transparent80px),
+    repeating-linear-gradient(0deg,rgba(0,255,255,0.03)0,rgba(0,255,255,0.03)1px,transparent 1px,transparent80px);
+  z-index:-9999;
 }
 
-/* Floating neon particles */
+/* Floating Particles */
 body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image:
-        radial-gradient(circle, rgba(0,255,255,0.20) 2px, transparent 3px),
-        radial-gradient(circle, rgba(0,255,255,0.20) 2px, transparent 3px);
-    background-size: 250px 250px, 320px 320px;
-    animation: particles 18s infinite linear;
-    z-index: -9999;
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(circle,rgba(0,255,255,0.20)2px,transparent3px),
+    radial-gradient(circle,rgba(0,255,255,0.20)2px,transparent3px);
+  background-size:250px 250px,320px 320px;
+  animation:particles 18s linear infinite;
+  z-index:-9999;
 }
+
 @keyframes particles {
-    0% { transform: translate(0,0); }
-    50% { transform: translate(20px,-30px); }
-    100% { transform: translate(0,0); }
+  0%{transform:translate(0,0)}
+  50%{transform:translate(20px,-30px)}
+  100%{transform:translate(0,0)}
 }
 
 /* ================================================
-   CARD
+   CARD STYLES
 ================================================ */
 .card-wrapper {
-    max-width: 520px;
-    margin: auto;
-    margin-top: 20px;
-    position: relative;
+  max-width:520px;
+  margin:auto;
+  margin-top:20px;
+  position:relative;
 }
 
 .card {
-    padding: 22px;
-    background: var(--card);
-    border-radius: 22px;
-    box-shadow: 0 0 20px rgba(0,255,255,0.25);
-    position: relative;
+  padding:22px;
+  background:var(--card);
+  border-radius:22px;
+  box-shadow:0 0 20px rgba(0,255,255,.25);
+  position:relative;
 }
 
 /* Neon animated border */
 .card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 22px;
-    padding: 2px;
-    background: linear-gradient(135deg,#00eaff,#00bfff,#00f5ff);
-    background-size: 200% 200%;
-    animation: borderMove 6s linear infinite;
-    opacity: .7;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:2px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#00eaff,#00bfff,#00f5ff);
+  background-size:200% 200%;
+  animation:borderMove 6s linear infinite;
+  opacity:.7;
+  -webkit-mask:linear-gradient(#fff 0 0)content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
 }
+
 @keyframes borderMove {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 /* ================================================
-   INPUTS + FIXED DROPDOWN
+   INPUTS + DROPDOWN FIX
 ================================================ */
-input, select {
-    width: 100%;
-    padding: 16px;
-    margin: 14px 0;
-    border-radius: 14px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-size: 17px;
-    position: relative;
-    z-index: 999;
+input,select {
+  width:100%;
+  padding:16px;
+  margin:14px 0;
+  border-radius:14px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-size:17px;
+  position:relative;
+  z-index:999;
 }
 
 /* DARK MODE dropdown fix */
-select,
-select option {
-    background: #001618 !important;
-    color: #afffff !important;
-    color-scheme: dark !important;
+select,select option {
+  background:#001618 !important;
+  color:#afffff !important;
+  color-scheme:dark !important;
 }
 
 /* LIGHT MODE dropdown fix */
 body[data-theme="light"] select,
 body[data-theme="light"] select option {
-    background: #ffffff !important;
-    color: #003033 !important;
-    color-scheme: light !important;
+  background:#fff !important;
+  color:#003033 !important;
+  color-scheme:light !important;
 }
 
-/* Focus Glow */
 input:focus, select:focus {
-    border-color: #00f5ff;
-    box-shadow: 0 0 12px rgba(0,255,255,0.6);
+  border-color:#00f5ff;
+  box-shadow:0 0 12px rgba(0,255,255,.6);
 }
 
 /* ================================================
-   BUTTONS
+   BUTTON STYLES
 ================================================ */
 button {
-    width: 100%;
-    padding: 16px;
-    border-radius: 14px;
-    border: none;
-    background: linear-gradient(135deg,#00f5ff,#00bfff);
-    color: #003033;
-    font-weight: bold;
-    font-size: 16px;
-    margin-top: 16px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(0,255,255,0.5);
-    z-index: 999;
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,#00f5ff,#00bfff);
+  color:#003033;
+  font-weight:bold;
+  font-size:16px;
+  margin-top:16px;
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(0,255,255,.5);
+  z-index:999;
 }
 button:hover {
-    box-shadow: 0 0 22px rgba(0,255,255,1);
-    transform: translateY(-2px);
+  box-shadow:0 0 22px rgba(0,255,255,1);
+  transform:translateY(-2px);
 }
 
 /* ================================================
    RESULT BOX
 ================================================ */
 .result {
-    background: rgba(255,255,255,0.08);
-    padding: 18px;
-    border-radius: 14px;
-    margin-top: 16px;
-    border: 1px solid var(--border);
+  background:rgba(255,255,255,0.08);
+  padding:18px;
+  border-radius:14px;
+  margin-top:16px;
+  border:1px solid var(--border);
 }
 
 .big-output {
-    font-size: 24px;
-    font-weight: bold;
-    color: #afffff;
-    text-shadow: 0 0 10px rgba(0,255,255,0.8);
+  font-size:24px;
+  font-weight:bold;
+  color:#afffff;
+  text-shadow:0 0 10px rgba(0,255,255,.8);
 }
 
-/* Light theme fix */
 body[data-theme="light"] .big-output {
-    color: #004c4c !important;
-    text-shadow: none !important;
+  color:#004c4c !important;
+  text-shadow:none !important;
 }
 
 /* ================================================
    RISK SLIDER
 ================================================ */
-.risk-bar {
-    width: 100%;
-    height: 10px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 10px;
-}
-.risk-fill {
-    width: 0%;
-    height: 10px;
-    border-radius: 10px;
-    transition:.3s;
-}
-input[type="range"]::-webkit-slider-thumb {
-    width:25px;
-    height:25px;
-    background:#00f5ff;
-    border-radius:50%;
-    box-shadow:0 0 15px rgba(0,255,255,.8);
-    -webkit-appearance:none;
+.risk-bar{width:100%;height:10px;background:rgba(255,255,255,.15);border-radius:10px;}
+.risk-fill{height:10px;width:0%;border-radius:10px;transition:.3s;}
+
+input[type=range]::-webkit-slider-thumb{
+  width:25px;height:25px;background:#00f5ff;
+  border-radius:50%;
+  box-shadow:0 0 15px rgba(0,255,255,.8);
+  -webkit-appearance:none;
 }
 
-/* Copy button */
 .copy-btn {
-    margin-top:12px;
-    padding:12px;
-    width:100%;
-    background:#00f5ff;
-    color:#003033;
-    border-radius:12px;
-    font-weight:bold;
-    cursor:pointer;
+  margin-top:12px;
+  padding:12px;
+  background:#00f5ff;
+  color:#003033;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 </style>
 </head>
 
-<!-- ⭐ DEFAULT THEME FIX → DARK MODE -->
+<!-- ⭐ DEFAULT DARK THEME -->
 <body data-theme="dark">
 
 <div class="card-wrapper">
@@ -240,6 +224,10 @@ input[type="range"]::-webkit-slider-thumb {
 <h2>JR Trading Calculator Pro</h2>
 
 <button onclick="toggleTheme()">Toggle Theme</button>
+
+<!-- ############################################ -->
+<!--               PROFIT CALCULATOR             -->
+<!-- ############################################ -->
 
 <label>Select Pair</label>
 <select id="pair">
@@ -268,6 +256,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 <hr>
 
+<!-- ############################################ -->
+<!--           POSITION SIZE CALCULATOR          -->
+<!-- ############################################ -->
+
 <h3>Position Size Calculator</h3>
 
 <label>Account Balance</label>
@@ -288,6 +280,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 <hr>
 
+<!-- ############################################ -->
+<!--              TICK → PIP CONVERTER           -->
+<!-- ############################################ -->
+
 <h3>Tick → Pip Converter</h3>
 <label>Ticks</label>
 <input type="number" id="ticks">
@@ -295,13 +291,47 @@ input[type="range"]::-webkit-slider-thumb {
 <button onclick="convertTicks()">Convert</button>
 <div id="tickResult" class="result"></div>
 
-</div>
-</div>
+<hr>
 
+<!-- ############################################ -->
+<!--               RR CALCULATOR (TV STYLE)      -->
+<!-- ############################################ -->
+
+<h3>Risk–Reward Calculator</h3>
+
+<label>Entry Price</label>
+<input type="number" id="rrEntry">
+
+<label>Stop Loss Price</label>
+<input type="number" id="rrSL">
+
+<label>Take Profit Price</label>
+<input type="number" id="rrTP">
+
+<button onclick="calcRR()">Calculate R:R</button>
+<div id="rrResult" class="result"></div>
+
+<hr>
+
+<!-- ############################################ -->
+<!--               TRADE JOURNAL EXPORT          -->
+<!-- ############################################ -->
+
+<h3>Trade Journal</h3>
+
+<button onclick="saveTrade()">Save Trade</button>
+<button onclick="exportJournal()">Export Journal CSV</button>
+
+<div id="journalSaved" class="result"></div>
+
+</div>
+</div>
 
 <script>
 
-/* PIP TABLE */
+/* ================================================
+   PIP VALUES
+================================================ */
 const pipValues={
  EURUSD:10,GBPUSD:10,AUDUSD:10,NZDUSD:10,USDJPY:9.1,USDCHF:10,
  USDCAD:10,EURGBP:10,EURJPY:9.1,GBPJPY:9.1,AUDJPY:9.1,CHFJPY:9.1,
@@ -309,44 +339,55 @@ const pipValues={
  US30:1,NAS100:1,SPX500:1,GER40:1,UK100:1,JP225:1
 };
 
-/* AUTO-UPDATE pip value */
-pipValue.value = pipValues[pair.value];
+/* Dropdown pip updater */
+pipValue.value=pipValues[pair.value];
 pair.addEventListener("change",()=>pipValue.value=pipValues[pair.value]);
 
-/* ⭐ FIXED Theme Toggle */
+/* ================================================
+   THEME TOGGLE
+================================================ */
 function toggleTheme(){
  let t=document.body.getAttribute("data-theme");
- document.body.setAttribute("data-theme", t==="light" ? "dark" : "light");
+ document.body.setAttribute("data-theme", t==="light"?"dark":"light");
 }
 
-/* RISK SLIDER */
+/* ================================================
+   RISK SLIDER
+================================================ */
 riskSlider.addEventListener("input",()=>{
  let v=parseFloat(riskSlider.value);
  riskValue.innerHTML=v+"%";
  riskFill.style.width=(v*20)+"%";
+
  if(v<=1){riskFill.style.background="#00ff9d";riskLabel.innerHTML="Safe Risk";}
  else if(v<=2){riskFill.style.background="#faff00";riskLabel.innerHTML="Moderate Risk";}
  else if(v<=3){riskFill.style.background="#ffa600";riskLabel.innerHTML="High Risk";}
- else {riskFill.style.background="#ff0033";riskLabel.innerHTML="Very High Risk";}
+ else{riskFill.style.background="#ff0033";riskLabel.innerHTML="Very High Risk";}
 });
 
-/* PROFIT */
+/* ================================================
+   PROFIT CALCULATOR
+================================================ */
 function calculateProfit(){
- let p=parseFloat(pips.value);
- let l=parseFloat(lot.value);
+ let p=parseFloat(pips.value),l=parseFloat(lot.value);
  if(!p||!l)return profitResult.innerHTML="Enter valid inputs";
  profitResult.innerHTML=`<div class="big-output">Profit: $${(p*l*pipValues[pair.value]).toFixed(2)}</div>`;
 }
 
-/* POSITION SIZE (FIXED) */
+/* ================================================
+   POSITION SIZE CALCULATOR
+================================================ */
 function positionSize(){
- let bal=parseFloat(balance.value);
- let risk=parseFloat(riskSlider.value);
- let slv=parseFloat(sl.value);
+ let bal=parseFloat(balance.value),
+     risk=parseFloat(riskSlider.value),
+     slv=parseFloat(sl.value);
+
  if(!bal||!risk||!slv)return posResult.innerHTML="Enter valid inputs";
+
  let pipV=pipValues[pair.value];
  let riskAmt=bal*(risk/100);
  let lots=riskAmt/(slv*pipV);
+
  posResult.innerHTML=`
  <div><b>Pair:</b> ${pair.value}</div>
  <div><b>Risk Amount:</b> $${riskAmt.toFixed(2)}</div>
@@ -363,11 +404,90 @@ function copyPositionResult(){
  alert("Copied!");
 }
 
-/* TICKS */
+/* ================================================
+   TICK → PIP CONVERTER
+================================================ */
 function convertTicks(){
  let t=parseFloat(ticks.value);
  if(!t)return tickResult.innerHTML="Enter valid input";
  tickResult.innerHTML=`<div class="big-output">${t/10} pips</div>`;
+}
+
+/* ================================================
+   RR CALCULATOR (TradingView Style)
+================================================ */
+function calcRR(){
+ let e=parseFloat(rrEntry.value),
+     s=parseFloat(rrSL.value),
+     t=parseFloat(rrTP.value);
+
+ if(!e||!s||!t)return rrResult.innerHTML="Enter valid inputs";
+
+ let risk=Math.abs(e-s);
+ let reward=Math.abs(t-e);
+ let rr=reward/risk;
+
+ rrResult.innerHTML=`
+ <div><b>Risk (pips):</b> ${risk.toFixed(5)}</div>
+ <div><b>Reward (pips):</b> ${reward.toFixed(5)}</div>
+ <hr>
+ <div><b>R:R Ratio:</b> ${rr.toFixed(2)}</div>
+ <div><b>Expected Loss (1 lot):</b> $${(risk*pipValues[pair.value]).toFixed(2)}</div>
+ <div><b>Expected Profit (1 lot):</b> $${(reward*pipValues[pair.value]).toFixed(2)}</div>
+ <div class="big-output">R:R = ${rr.toFixed(2)}</div>
+ `;
+}
+
+/* ================================================
+   TRADE JOURNAL EXPORT
+================================================ */
+let journal=[];
+
+function saveTrade(){
+ let rr=(
+   Math.abs(rrTP.value-rrEntry.value)/
+   Math.abs(rrEntry.value-rrSL.value)
+ ).toFixed(2);
+
+ let lots="N/A";
+ let lotOutput=document.querySelector("#posResult .big-output");
+ if(lotOutput) lots=lotOutput.innerText;
+
+ let trade={
+   pair:pair.value,
+   entry:rrEntry.value,
+   sl:rrSL.value,
+   tp:rrTP.value,
+   rr:rr,
+   lots:lots,
+   time:new Date().toLocaleString()
+ };
+
+ journal.push(trade);
+
+ journalSaved.innerHTML="Trade saved!";
+}
+
+/* CSV Export */
+function exportJournal(){
+ if(journal.length===0){
+   alert("No trades saved!");
+   return;
+ }
+
+ let csv="Pair,Entry,SL,TP,RR,Lots,Time\n";
+
+ journal.forEach(t=>{
+   csv+=`${t.pair},${t.entry},${t.sl},${t.tp},${t.rr},${t.lots},${t.time}\n`;
+ });
+
+ let blob=new Blob([csv],{type:"text/csv"});
+ let url=URL.createObjectURL(blob);
+ let a=document.createElement("a");
+
+ a.href=url;
+ a.download="trade_journal.csv";
+ a.click();
 }
 
 </script>
