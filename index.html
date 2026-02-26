@@ -278,6 +278,23 @@ function positionSize() {
     // Risk amount in dollars
     let riskAmount = bal * (risk / 100);
 
+    // Correct lot size formula
+    let lotSize = riskAmount / (sl * pipValuePerLot);
+
+    // Create professional formatted output
+    let resultHTML = 
+        "Pair: " + pair + "<br>" +
+        "Risk Amount: $" + riskAmount.toFixed(2) + "<br>" +
+        "Stop Loss: " + sl + " pips<br>" +
+        "Pip Value Used: $" + pipValuePerLot.toFixed(2) + "<br>" +
+        "<hr>" +
+        "<b>Lot Size: " + lotSize.toFixed(2) + " lots</b>";
+
+    document.getElementById("posResult").innerHTML = resultHTML;
+}
+    // Risk amount in dollars
+    let riskAmount = bal * (risk / 100);
+
     // LOT SIZE FORMULA
     let lotSize = riskAmount / (sl * pipValuePerLot);
 
