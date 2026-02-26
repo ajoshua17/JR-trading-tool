@@ -8,9 +8,9 @@
 
 <style>
 
-/* =============================
-   BASE THEME VARIABLES
-============================= */
+/* =============================================
+   THEME VARIABLES
+============================================= */
 :root {
     --bg: #0f0f0f;
     --text: #e9ffff;
@@ -19,52 +19,61 @@
     --glow: rgba(0,255,255,0.20);
 }
 
-/* =============================
+/* LIGHT THEME MANUAL */
+body[data-theme="light"] {
+    --bg: #f6faff;
+    --text: #002f33;
+    --card: rgba(255,255,255,0.65);
+    --border: rgba(0,0,0,0.18);
+}
+
+/* AUTO LIGHT MODE IF USER HAS NOT TOGGLED */
+@media (prefers-color-scheme: light) {
+    body:not([data-theme]) {
+        --bg: #f6faff;
+        --text: #003033;
+        --card: rgba(255,255,255,0.65);
+        --border: rgba(0,0,0,0.18);
+    }
+}
+
+/* =============================================
    BODY + SAFE AREA FIXES
-============================= */
+============================================= */
 body {
     margin: 0;
     padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
-    font-family: Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
+    font-family: Arial, sans-serif;
     transition: 0.35s;
 }
 
-/* =============================
-   MAIN CARD (SINGLE LAYOUT)
-============================= */
+/* =============================================
+   MAIN CARD (FULL LAYOUT)
+============================================= */
 .card {
     width: 100%;
     max-width: 520px;
     margin: auto;
     padding: 25px;
     box-sizing: border-box;
-
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 20px;
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 30px var(--glow);
-
-    animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
 }
 
 h2, h3 {
     text-align: center;
-    margin-bottom: 12px;
     font-weight: bold;
-    line-height: 1.3;
+    margin-bottom: 12px;
 }
 
-/* =============================
+/* =============================================
    INPUTS
-============================= */
+============================================= */
 input, select {
     width: 100%;
     padding: 14px;
@@ -77,94 +86,109 @@ input, select {
     outline: none;
 }
 
-/* =============================
+/* =============================================
    BUTTONS
-============================= */
+============================================= */
 button {
     width: 100%;
     padding: 14px;
     border-radius: 12px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-
     background: #00f5ff;
+    border: none;
     color: black;
-    margin-top: 14px;
+    font-weight: bold;
+    margin-top: 12px;
+    cursor: pointer;
     transition: 0.25s;
 }
-
 button:hover {
     opacity: 0.85;
 }
 
-/* =============================
+/* =============================================
    RESULT BOX
-============================= */
+============================================= */
 .result {
-    margin-top: 16px;
-    padding: 18px;
-    border-radius: 12px;
+    padding: 16px;
+    margin-top: 15px;
+    border-radius: 14px;
     background: rgba(255,255,255,0.06);
     border: 1px solid var(--border);
-    backdrop-filter: blur(15px);
 }
 
 .big-output {
     font-size: 22px;
     font-weight: bold;
     margin-top: 12px;
-    color: #aaffff;
 }
 
 .output-label {
-    font-size: 15px;
     opacity: 0.85;
+    font-size: 14px;
 }
 
 .output-line {
-    border-top: 1px solid rgba(255,255,255,0.25);
+    border-top: 1px solid rgba(255,255,255,0.28);
     margin: 12px 0;
 }
 
-/* COPY BUTTON */
+/* Copy Button */
 .copy-btn {
-    padding: 10px;
     width: 100%;
+    padding: 10px;
     border-radius: 10px;
+    margin-top: 10px;
     background: #00f5ff;
     color: #000;
-    margin-top: 12px;
-    cursor: pointer;
     font-weight: bold;
+    cursor: pointer;
 }
 
-/* =============================
-   DARK/LIGHT MANUAL THEME
-============================= */
-
-body[data-theme="dark"] {
-    --bg: #0f0f0f;
-    --text: #e9ffff;
-    --card: rgba(255,255,255,0.10);
-    --border: rgba(255,255,255,0.18);
+/* =============================================
+   RISK SLIDER UI
+============================================= */
+.risk-bar {
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.15);
+    overflow: hidden;
+    margin-top: 10px;
 }
 
-body[data-theme="light"] {
-    --bg: #f6faff;
-    --text: #002f33;
-    --card: rgba(255,255,255,0.65);
-    --border: rgba(0,0,0,0.18);
+.risk-fill {
+    height: 100%;
+    width: 0%;
+    background: #00ff9d;
+    transition: 0.3s ease;
 }
 
-/* AUTO LIGHT THEME (ONLY IF USER HASN'T TOGGLED) */
-@media (prefers-color-scheme: light) {
-    body:not([data-theme]) {
-        --bg: #f6faff;
-        --text: #002f33;
-        --card: rgba(255,255,255,0.65);
-        --border: rgba(0,0,0,0.18);
-    }
+.risk-label {
+    margin-top: 8px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-top: 10px;
+    background: transparent;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    background: #00f5ff;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 10px;
 }
 
 </style>
@@ -180,17 +204,20 @@ body[data-theme="light"] {
 
 <button onclick="toggleTheme()">Toggle Theme (Optional)</button>
 
+<!-- ==========================
+     PAIR SELECTION
+========================== -->
 <label>Select Pair</label>
 <select id="pair">
-    <option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
-    <option>NZDUSD</option><option>USDJPY</option><option>USDCHF</option>
-    <option>USDCAD</option><option>EURGBP</option><option>EURJPY</option>
-    <option>GBPJPY</option><option>AUDJPY</option><option>CHFJPY</option>
-    <option>EURAUD</option><option>EURNZD</option>
-    <option>XAUUSD</option><option>XAGUSD</option>
-    <option>BTCUSD</option><option>ETHUSD</option>
-    <option>US30</option><option>NAS100</option><option>SPX500</option>
-    <option>GER40</option><option>UK100</option><option>JP225</option>
+<option>EURUSD</option><option>GBPUSD</option><option>AUDUSD</option>
+<option>NZDUSD</option><option>USDJPY</option><option>USDCHF</option>
+<option>USDCAD</option><option>EURGBP</option><option>EURJPY</option>
+<option>GBPJPY</option><option>AUDJPY</option><option>CHFJPY</option>
+<option>EURAUD</option><option>EURNZD</option>
+<option>XAUUSD</option><option>XAGUSD</option>
+<option>BTCUSD</option><option>ETHUSD</option>
+<option>US30</option><option>NAS100</option><option>SPX500</option>
+<option>GER40</option><option>UK100</option><option>JP225</option>
 </select>
 
 <label>Pips / Points</label>
@@ -207,13 +234,23 @@ body[data-theme="light"] {
 
 <hr class="output-line">
 
+<!-- ==========================
+     POSITION SIZE SECTION
+========================== -->
 <h3>Position Size Calculator</h3>
 
 <label>Account Balance ($)</label>
 <input type="number" id="balance">
 
 <label>Risk %</label>
-<input type="number" id="risk">
+<input type="range" id="riskSlider" min="0.1" max="5" value="1" step="0.1">
+
+<div id="riskValue">1%</div>
+
+<div class="risk-bar">
+    <div id="riskFill" class="risk-fill"></div>
+</div>
+<div id="riskLabel" class="risk-label">Safe Risk</div>
 
 <label>Stop Loss (pips)</label>
 <input type="number" id="sl">
@@ -223,137 +260,9 @@ body[data-theme="light"] {
 
 <hr class="output-line">
 
+<!-- ==========================
+     TICK TO PIP
+========================== -->
 <h3>Tick → Pip Converter</h3>
 <label>Ticks</label>
 <input type="number" id="ticks">
-
-<button onclick="convertTicks()">Convert</button>
-<div id="tickResult" class="result"></div>
-
-</div>
-
-
-
-
-<script>
-
-/* =====================================
-      AUTO PIP TABLE
-===================================== */
-const pipValues = {
-    EURUSD:10, GBPUSD:10, AUDUSD:10, NZDUSD:10, USDJPY:9.1, USDCHF:10,
-    USDCAD:10, EURGBP:10, EURJPY:9.1, GBPJPY:9.1, AUDJPY:9.1, CHFJPY:9.1,
-    EURAUD:10, EURNZD:10, XAUUSD:1, XAGUSD:0.5, BTCUSD:0.1, ETHUSD:0.1,
-    US30:1, NAS100:1, SPX500:1, GER40:1, UK100:1, JP225:1
-};
-
-/* SET DEFAULT */
-document.getElementById("pipValue").value = pipValues["EURUSD"];
-
-document.getElementById("pair").addEventListener("change", function () {
-    document.getElementById("pipValue").value = pipValues[this.value];
-});
-
-
-/* =====================================
-      AUTO DARK/LIGHT
-===================================== */
-let manualTheme = false;
-
-function applyAutoTheme() {
-    if (manualTheme) return;
-    const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-    if (prefersLight) document.body.removeAttribute("data-theme");
-    else document.body.removeAttribute("data-theme");
-}
-
-applyAutoTheme();
-
-
-/* Manual Toggle */
-function toggleTheme() {
-    manualTheme = true;
-    let now = document.body.getAttribute("data-theme");
-    document.body.setAttribute("data-theme", now === "light" ? "dark" : "light");
-}
-
-
-
-/* =====================================
-      PROFIT CALCULATOR
-===================================== */
-function calculateProfit() {
-    let pips = parseFloat(document.getElementById("pips").value);
-    let lot = parseFloat(document.getElementById("lot").value);
-    let pair = document.getElementById("pair").value;
-
-    if (!pips || !lot) {
-        document.getElementById("profitResult").innerHTML = "Enter valid values.";
-        return;
-    }
-
-    let profit = pips * lot * pipValues[pair];
-
-    document.getElementById("profitResult").innerHTML =
-        `<div class="big-output">Profit: $${profit.toFixed(2)}</div>`;
-}
-
-
-
-/* =====================================
-      POSITION SIZE
-===================================== */
-function positionSize() {
-    let bal = parseFloat(document.getElementById("balance").value);
-    let risk = parseFloat(document.getElementById("risk").value);
-    let sl = parseFloat(document.getElementById("sl").value);
-    let pair = document.getElementById("pair").value;
-
-    if (!bal || !risk || !sl) {
-        document.getElementById("posResult").innerHTML = "Enter valid numbers.";
-        return;
-    }
-
-    let pipValue = pipValues[pair];
-    let riskAmount = bal * (risk / 100);
-    let lots = riskAmount / (sl * pipValue);
-
-    let html =
-        `<div class='output-label'>Pair:</div> ${pair}<br>
-         <div class='output-label'>Risk Amount:</div> $${riskAmount.toFixed(2)}<br>
-         <div class='output-label'>Stop Loss:</div> ${sl} pips<br>
-         <div class='output-label'>Pip Value Used:</div> $${pipValue}
-         <div class="output-line"></div>
-         <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
-         <button class="copy-btn" onclick="copyPositionResult()">Copy</button>`;
-
-    document.getElementById("posResult").innerHTML = html;
-}
-
-
-
-/* COPY */
-function copyPositionResult() {
-    let text = document.getElementById("posResult").innerText;
-    navigator.clipboard.writeText(text);
-    alert("Copied!");
-}
-
-
-
-/* TICKS → PIPS */
-function convertTicks() {
-    let ticks = parseFloat(document.getElementById("ticks").value);
-    if (!ticks) {
-        document.getElementById("tickResult").innerHTML = "Enter valid input.";
-        return;
-    }
-
-    document.getElementById("tickResult").innerHTML =
-        `<div class="big-output">${ticks/10} pips</div>`;
-}
-
-</script>
-
-</body>
-</html>
