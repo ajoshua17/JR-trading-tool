@@ -15,18 +15,20 @@
   --text: #eaffff;
   --card: rgba(255,255,255,0.10);
   --border: rgba(0,255,255,0.25);
+  --accent: #00f5ff;
 }
 
-/* Light Mode */
+/* Light Theme */
 body[data-theme="light"] {
   --bg: #f5fcff;
   --text: #003033;
   --card: rgba(255,255,255,0.65);
   --border: rgba(0,0,0,0.15);
+  --accent: #00bcd4;
 }
 
 /* ================================================
-   BODY + TRANSITION
+   BODY + BACKGROUND + TRANSITION
 ================================================ */
 body {
   margin: 0;
@@ -38,70 +40,85 @@ body {
   transition: background .3s ease, color .3s ease;
 }
 
-/* Neon Grid */
-body::before {
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    repeating-linear-gradient(90deg,rgba(0,255,255,0.03)0,rgba(0,255,255,0.03)1px,transparent 1px,transparent80px),
-    repeating-linear-gradient(0deg,rgba(0,255,255,0.03)0,rgba(0,255,255,0.03)1px,transparent 1px,transparent80px);
-  z-index:-9999;
+/* ================================================
+   SIDEBAR NAVIGATION
+================================================ */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 240px;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  transition: 0.4s ease;
+  z-index: 999999;
+  border-right: 1px solid var(--accent);
+  box-shadow: 0 0 20px var(--accent);
+}
+#sidebar.active { left: 0; }
+
+#sidebar h2 {
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 20px;
+}
+#sidebar button {
+  width: 100%;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-weight: bold;
 }
 
-/* Floating Particles */
-body::after {
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:
-    radial-gradient(circle,rgba(0,255,255,0.20)2px,transparent3px),
-    radial-gradient(circle,rgba(0,255,255,0.20)2px,transparent3px);
-  background-size:250px 250px,320px 320px;
-  animation:particles 18s linear infinite;
-  z-index:-9999;
-}
-
-@keyframes particles {
-  0%{transform:translate(0,0)}
-  50%{transform:translate(20px,-30px)}
-  100%{transform:translate(0,0)}
+/* Menu Toggle Icon */
+#menuBtn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999999;
+  background: var(--accent);
+  border: none;
+  color: #00282d;
+  font-weight: bold;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px var(--accent);
 }
 
 /* ================================================
-   CARD STYLES
+   CARD CONTAINER
 ================================================ */
 .card-wrapper {
-  max-width:520px;
-  margin:auto;
-  margin-top:20px;
-  position:relative;
+  max-width: 520px;
+  margin: auto;
+  margin-top: 70px;
+  position: relative;
 }
 
 .card {
-  padding:22px;
-  background:var(--card);
-  border-radius:22px;
-  box-shadow:0 0 20px rgba(0,255,255,.25);
-  position:relative;
+  padding: 22px;
+  background: var(--card);
+  border-radius: 22px;
+  box-shadow: 0 0 20px rgba(0,255,255,.25);
+  position: relative;
 }
 
 /* Neon animated border */
 .card::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  padding:2px;
-  border-radius:22px;
-  background:linear-gradient(135deg,#00eaff,#00bfff,#00f5ff);
-  background-size:200% 200%;
-  animation:borderMove 6s linear infinite;
-  opacity:.7;
-  -webkit-mask:linear-gradient(#fff 0 0)content-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;
-          mask-composite:exclude;
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 22px;
+  background: linear-gradient(135deg,#00eaff,#00bfff,#00f5ff);
+  background-size: 200% 200%;
+  animation: borderMove 6s linear infinite;
+  opacity: .7;
+  pointer-events: none !important;
 }
-
 @keyframes borderMove {
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
@@ -109,103 +126,95 @@ body::after {
 }
 
 /* ================================================
-   INPUTS + DROPDOWN FIX
+   INPUTS + DROPDOWNS
 ================================================ */
 input,select {
-  width:100%;
-  padding:16px;
-  margin:14px 0;
-  border-radius:14px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid var(--border);
-  color:var(--text);
-  font-size:17px;
-  position:relative;
-  z-index:999;
+  width: 100%;
+  padding: 16px;
+  margin: 14px 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 17px;
+  position: relative;
+  z-index: 999;
 }
 
-/* DARK MODE dropdown fix */
-select,select option {
-  background:#001618 !important;
-  color:#afffff !important;
-  color-scheme:dark !important;
+/* Dark dropdown fix */
+select, select option {
+  background: #001618 !important;
+  color: #afffff !important;
+  color-scheme: dark !important;
 }
 
-/* LIGHT MODE dropdown fix */
+/* Light dropdown fix */
 body[data-theme="light"] select,
 body[data-theme="light"] select option {
-  background:#fff !important;
-  color:#003033 !important;
-  color-scheme:light !important;
+  background: #fff !important;
+  color: #003033 !important;
+  color-scheme: light !important;
 }
 
 input:focus, select:focus {
-  border-color:#00f5ff;
-  box-shadow:0 0 12px rgba(0,255,255,.6);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
 }
 
 /* ================================================
-   BUTTON STYLES
+   BUTTONS
 ================================================ */
 button {
-  width:100%;
-  padding:16px;
-  border-radius:14px;
-  border:none;
-  background:linear-gradient(135deg,#00f5ff,#00bfff);
-  color:#003033;
-  font-weight:bold;
-  font-size:16px;
-  margin-top:16px;
-  cursor:pointer;
-  box-shadow:0 0 15px rgba(0,255,255,.5);
-  z-index:999;
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg,var(--accent),#00bfff);
+  color: #003033;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 15px var(--accent);
 }
-button:hover {
-  box-shadow:0 0 22px rgba(0,255,255,1);
-  transform:translateY(-2px);
-}
+button:hover { transform: translateY(-2px); }
 
 /* ================================================
-   RESULT BOX
+   RESULTS
 ================================================ */
 .result {
-  background:rgba(255,255,255,0.08);
-  padding:18px;
-  border-radius:14px;
-  margin-top:16px;
-  border:1px solid var(--border);
+  background: rgba(255,255,255,0.08);
+  padding: 18px;
+  border-radius: 14px;
+  margin-top: 16px;
+  border: 1px solid var(--border);
 }
-
 .big-output {
-  font-size:24px;
-  font-weight:bold;
-  color:#afffff;
-  text-shadow:0 0 10px rgba(0,255,255,.8);
+  font-size: 24px;
+  font-weight: bold;
+  color: #afffff;
+  text-shadow: 0 0 10px var(--accent);
 }
 
+/* Light readability fix */
 body[data-theme="light"] .big-output {
-  color:#004c4c !important;
-  text-shadow:none !important;
+  color: #004c4c;
+  text-shadow: none;
 }
 
 /* ================================================
    RISK SLIDER
 ================================================ */
-.risk-bar{width:100%;height:10px;background:rgba(255,255,255,.15);border-radius:10px;}
-.risk-fill{height:10px;width:0%;border-radius:10px;transition:.3s;}
+.risk-bar { width: 100%; height: 10px; background: rgba(255,255,255,.15); border-radius: 10px; }
+.risk-fill { height: 10px; width: 0%; border-radius: 10px; transition:.3s; }
 
-input[type=range]::-webkit-slider-thumb{
-  width:25px;height:25px;background:#00f5ff;
-  border-radius:50%;
-  box-shadow:0 0 15px rgba(0,255,255,.8);
-  -webkit-appearance:none;
-}
-
+/* ================================================
+   COPY BUTTON
+================================================ */
 .copy-btn {
   margin-top:12px;
   padding:12px;
-  background:#00f5ff;
+  background: var(--accent);
   color:#003033;
   border-radius:12px;
   font-weight:bold;
@@ -215,19 +224,37 @@ input[type=range]::-webkit-slider-thumb{
 </style>
 </head>
 
-<!-- ⭐ DEFAULT DARK THEME -->
 <body data-theme="dark">
 
+<!-- ================================================
+     SIDEBAR MENU
+================================================ -->
+<button id="menuBtn" onclick="toggleMenu()">☰ Menu</button>
+
+<div id="sidebar">
+  <h2>JR Tools</h2>
+
+  <button onclick="showSection('profitSection')">Profit Calculator</button>
+  <button onclick="showSection('positionSection')">Position Size</button>
+  <button onclick="showSection('tickSection')">Tick → Pip</button>
+  <button onclick="showSection('rrSection')">RR Calculator</button>
+  <button onclick="showSection('journalSection')">Trade Journal</button>
+
+  <button onclick="toggleTheme()">Toggle Theme</button>
+</div>
+
+<!-- ================================================
+     MAIN CARD
+================================================ -->
 <div class="card-wrapper">
 <div class="card">
 
-<h2>JR Trading Calculator Pro</h2>
+<h2 id="sectionTitle">Profit Calculator</h2>
 
-<button onclick="toggleTheme()">Toggle Theme</button>
-
-<!-- ############################################ -->
-<!--               PROFIT CALCULATOR             -->
-<!-- ############################################ -->
+<!-- ================================================
+     SECTION: PROFIT CALCULATOR
+================================================ -->
+<div id="profitSection" class="section">
 
 <label>Select Pair</label>
 <select id="pair">
@@ -254,11 +281,12 @@ input[type=range]::-webkit-slider-thumb{
 <button onclick="calculateProfit()">Calculate Profit</button>
 <div id="profitResult" class="result"></div>
 
-<hr>
+</div>
 
-<!-- ############################################ -->
-<!--           POSITION SIZE CALCULATOR          -->
-<!-- ############################################ -->
+<!-- ================================================
+     SECTION: POSITION SIZE
+================================================ -->
+<div id="positionSection" class="section" style="display:none">
 
 <h3>Position Size Calculator</h3>
 
@@ -278,24 +306,27 @@ input[type=range]::-webkit-slider-thumb{
 <button onclick="positionSize()">Calculate Position Size</button>
 <div id="posResult" class="result"></div>
 
-<hr>
+</div>
 
-<!-- ############################################ -->
-<!--              TICK → PIP CONVERTER           -->
-<!-- ############################################ -->
+<!-- ================================================
+     SECTION: TICK TO PIP
+================================================ -->
+<div id="tickSection" class="section" style="display:none">
 
 <h3>Tick → Pip Converter</h3>
+
 <label>Ticks</label>
 <input type="number" id="ticks">
 
 <button onclick="convertTicks()">Convert</button>
 <div id="tickResult" class="result"></div>
 
-<hr>
+</div>
 
-<!-- ############################################ -->
-<!--               RR CALCULATOR (TV STYLE)      -->
-<!-- ############################################ -->
+<!-- ================================================
+     SECTION: RR CALCULATOR (TradingView Style)
+================================================ -->
+<div id="rrSection" class="section" style="display:none">
 
 <h3>Risk–Reward Calculator</h3>
 
@@ -311,11 +342,12 @@ input[type=range]::-webkit-slider-thumb{
 <button onclick="calcRR()">Calculate R:R</button>
 <div id="rrResult" class="result"></div>
 
-<hr>
+</div>
 
-<!-- ############################################ -->
-<!--               TRADE JOURNAL EXPORT          -->
-<!-- ############################################ -->
+<!-- ================================================
+     SECTION: TRADE JOURNAL
+================================================ -->
+<div id="journalSection" class="section" style="display:none">
 
 <h3>Trade Journal</h3>
 
@@ -325,13 +357,15 @@ input[type=range]::-webkit-slider-thumb{
 <div id="journalSaved" class="result"></div>
 
 </div>
+
+</div>
 </div>
 
 <script>
 
-/* ================================================
-   PIP VALUES
-================================================ */
+/* =========================================================
+   PIP TABLE
+========================================================= */
 const pipValues={
  EURUSD:10,GBPUSD:10,AUDUSD:10,NZDUSD:10,USDJPY:9.1,USDCHF:10,
  USDCAD:10,EURGBP:10,EURJPY:9.1,GBPJPY:9.1,AUDJPY:9.1,CHFJPY:9.1,
@@ -339,44 +373,85 @@ const pipValues={
  US30:1,NAS100:1,SPX500:1,GER40:1,UK100:1,JP225:1
 };
 
-/* Dropdown pip updater */
-pipValue.value=pipValues[pair.value];
-pair.addEventListener("change",()=>pipValue.value=pipValues[pair.value]);
+pipValue.value = pipValues[pair.value];
+pair.addEventListener("change", () => pipValue.value = pipValues[pair.value]);
 
-/* ================================================
-   THEME TOGGLE
-================================================ */
-function toggleTheme(){
- let t=document.body.getAttribute("data-theme");
- document.body.setAttribute("data-theme", t==="light"?"dark":"light");
+/* =========================================================
+   SIDEBAR HANDLING
+========================================================= */
+function toggleMenu(){
+ document.getElementById("sidebar").classList.toggle("active");
 }
 
-/* ================================================
-   RISK SLIDER
-================================================ */
+function showSection(id){
+ document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+ document.getElementById(id).style.display="block";
+ document.getElementById("sectionTitle").innerText =
+   document.querySelector(`#${id} h3, #${id} label`).innerText || "JR Tools";
+ toggleMenu();
+}
+
+/* =========================================================
+   THEME TOGGLE (bulletproof)
+========================================================= */
+function toggleTheme(){
+ let t = document.body.getAttribute("data-theme");
+ if(!t) t="dark";
+ document.body.setAttribute("data-theme", t==="dark" ? "light" : "dark");
+}
+
+/* =========================================================
+   AUTO-SAVE (localStorage)
+========================================================= */
+function saveSettings(){
+ localStorage.setItem("jr_pair", pair.value);
+ localStorage.setItem("jr_balance", balance.value);
+ localStorage.setItem("jr_risk", riskSlider.value);
+ localStorage.setItem("jr_sl", sl.value);
+ localStorage.setItem("jr_rr_entry", rrEntry.value);
+ localStorage.setItem("jr_rr_sl", rrSL.value);
+ localStorage.setItem("jr_rr_tp", rrTP.value);
+}
+function loadSettings(){
+ if(localStorage.getItem("jr_pair")) pair.value = localStorage.getItem("jr_pair");
+ if(localStorage.getItem("jr_balance")) balance.value = localStorage.getItem("jr_balance");
+ if(localStorage.getItem("jr_risk")) riskSlider.value = localStorage.getItem("jr_risk");
+ if(localStorage.getItem("jr_sl")) sl.value = localStorage.getItem("jr_sl");
+ if(localStorage.getItem("jr_rr_entry")) rrEntry.value = localStorage.getItem("jr_rr_entry");
+ if(localStorage.getItem("jr_rr_sl")) rrSL.value = localStorage.getItem("jr_rr_sl");
+ if(localStorage.getItem("jr_rr_tp")) rrTP.value = localStorage.getItem("jr_rr_tp");
+ riskValue.innerHTML = riskSlider.value + "%";
+}
+
+loadSettings();
+
+document.querySelectorAll("input, select").forEach(el=>{
+ el.addEventListener("input", saveSettings);
+});
+
+/* =========================================================
+   RISK SLIDER UI
+========================================================= */
 riskSlider.addEventListener("input",()=>{
  let v=parseFloat(riskSlider.value);
  riskValue.innerHTML=v+"%";
  riskFill.style.width=(v*20)+"%";
-
- if(v<=1){riskFill.style.background="#00ff9d";riskLabel.innerHTML="Safe Risk";}
- else if(v<=2){riskFill.style.background="#faff00";riskLabel.innerHTML="Moderate Risk";}
- else if(v<=3){riskFill.style.background="#ffa600";riskLabel.innerHTML="High Risk";}
- else{riskFill.style.background="#ff0033";riskLabel.innerHTML="Very High Risk";}
 });
 
-/* ================================================
-   PROFIT CALCULATOR
-================================================ */
+/* =========================================================
+   PROFIT CALC
+========================================================= */
 function calculateProfit(){
- let p=parseFloat(pips.value),l=parseFloat(lot.value);
+ let p=parseFloat(pips.value),
+     l=parseFloat(lot.value);
  if(!p||!l)return profitResult.innerHTML="Enter valid inputs";
- profitResult.innerHTML=`<div class="big-output">Profit: $${(p*l*pipValues[pair.value]).toFixed(2)}</div>`;
+ let result=p*l*pipValues[pair.value];
+ profitResult.innerHTML=`<div class='big-output'>Profit: $${result.toFixed(2)}</div>`;
 }
 
-/* ================================================
-   POSITION SIZE CALCULATOR
-================================================ */
+/* =========================================================
+   POSITION SIZE
+========================================================= */
 function positionSize(){
  let bal=parseFloat(balance.value),
      risk=parseFloat(riskSlider.value),
@@ -388,34 +463,36 @@ function positionSize(){
  let riskAmt=bal*(risk/100);
  let lots=riskAmt/(slv*pipV);
 
- posResult.innerHTML=`
+ posResult.innerHTML=` 
  <div><b>Pair:</b> ${pair.value}</div>
  <div><b>Risk Amount:</b> $${riskAmt.toFixed(2)}</div>
  <div><b>Stop Loss:</b> ${slv} pips</div>
  <div><b>Pip Value:</b> $${pipV}</div>
  <hr>
- <div class="big-output">Lot Size: ${lots.toFixed(2)} lots</div>
- <button class="copy-btn" onclick="copyPositionResult()">Copy</button>
- `;
+ <div class='big-output'>Lot Size: ${lots.toFixed(2)} lots</div>
+ <button class='copy-btn' onclick="copyPositionResult()">Copy</button>`;
 }
 
+/* =========================================================
+   COPY TO CLIPBOARD
+========================================================= */
 function copyPositionResult(){
  navigator.clipboard.writeText(posResult.innerText);
  alert("Copied!");
 }
 
-/* ================================================
-   TICK → PIP CONVERTER
-================================================ */
+/* =========================================================
+   TICK → PIP
+========================================================= */
 function convertTicks(){
  let t=parseFloat(ticks.value);
  if(!t)return tickResult.innerHTML="Enter valid input";
- tickResult.innerHTML=`<div class="big-output">${t/10} pips</div>`;
+ tickResult.innerHTML=`<div class='big-output'>${t/10} pips</div>`;
 }
 
-/* ================================================
-   RR CALCULATOR (TradingView Style)
-================================================ */
+/* =========================================================
+   RISK–REWARD (TradingView Style)
+========================================================= */
 function calcRR(){
  let e=parseFloat(rrEntry.value),
      s=parseFloat(rrSL.value),
@@ -434,17 +511,17 @@ function calcRR(){
  <div><b>R:R Ratio:</b> ${rr.toFixed(2)}</div>
  <div><b>Expected Loss (1 lot):</b> $${(risk*pipValues[pair.value]).toFixed(2)}</div>
  <div><b>Expected Profit (1 lot):</b> $${(reward*pipValues[pair.value]).toFixed(2)}</div>
- <div class="big-output">R:R = ${rr.toFixed(2)}</div>
+ <div class='big-output'>R:R = ${rr.toFixed(2)}</div>
  `;
 }
 
-/* ================================================
-   TRADE JOURNAL EXPORT
-================================================ */
+/* =========================================================
+   JOURNAL + CSV EXPORT
+========================================================= */
 let journal=[];
 
 function saveTrade(){
- let rr=(
+ let rrVal=(
    Math.abs(rrTP.value-rrEntry.value)/
    Math.abs(rrEntry.value-rrSL.value)
  ).toFixed(2);
@@ -453,30 +530,23 @@ function saveTrade(){
  let lotOutput=document.querySelector("#posResult .big-output");
  if(lotOutput) lots=lotOutput.innerText;
 
- let trade={
+ journal.push({
    pair:pair.value,
    entry:rrEntry.value,
    sl:rrSL.value,
    tp:rrTP.value,
-   rr:rr,
+   rr:rrVal,
    lots:lots,
    time:new Date().toLocaleString()
- };
-
- journal.push(trade);
+ });
 
  journalSaved.innerHTML="Trade saved!";
 }
 
-/* CSV Export */
 function exportJournal(){
- if(journal.length===0){
-   alert("No trades saved!");
-   return;
- }
+ if(journal.length===0)return alert("No trades saved!");
 
  let csv="Pair,Entry,SL,TP,RR,Lots,Time\n";
-
  journal.forEach(t=>{
    csv+=`${t.pair},${t.entry},${t.sl},${t.tp},${t.rr},${t.lots},${t.time}\n`;
  });
@@ -484,7 +554,6 @@ function exportJournal(){
  let blob=new Blob([csv],{type:"text/csv"});
  let url=URL.createObjectURL(blob);
  let a=document.createElement("a");
-
  a.href=url;
  a.download="trade_journal.csv";
  a.click();
